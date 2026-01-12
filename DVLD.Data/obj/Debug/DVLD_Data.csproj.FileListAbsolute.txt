@@ -1,0 +1,6 @@
+C:\Users\tareq\OneDrive\Pictures\Screenshots\Desktop\DVLD_Data\obj\Debug\DVLD_Data.csproj.AssemblyReference.cache
+C:\Users\tareq\OneDrive\Pictures\Screenshots\Desktop\DVLD_Data\obj\Debug\DVLD_Data.csproj.CoreCompileInputs.cache
+C:\Users\tareq\OneDrive\Pictures\Screenshots\Desktop\DVLD_Data\bin\Debug\DVLD_Data.dll
+C:\Users\tareq\OneDrive\Pictures\Screenshots\Desktop\DVLD_Data\bin\Debug\DVLD_Data.pdb
+C:\Users\tareq\OneDrive\Pictures\Screenshots\Desktop\DVLD_Data\obj\Debug\DVLD_Data.dll
+C:\Users\tareq\OneDrive\Pictures\Screenshots\Desktop\DVLD_Data\obj\Debug\DVLD_Data.pdb
