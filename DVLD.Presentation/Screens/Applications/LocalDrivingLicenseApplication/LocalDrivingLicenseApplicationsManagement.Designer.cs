@@ -48,12 +48,12 @@
             this.contextIssueDrivingLicense = new System.Windows.Forms.ToolStripMenuItem();
             this.contextCancelApplication = new System.Windows.Forms.ToolStripMenuItem();
             this.contextShowLicenseInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextShowPersonLicenseHistory = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddLocalDrivingLicenseApplications = new System.Windows.Forms.Button();
             this.mtbSearch = new System.Windows.Forms.MaskedTextBox();
             this.cbFilter = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cbStatus = new System.Windows.Forms.ComboBox();
-            this.contextShowPersonLicenseHistory = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvApps)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -170,6 +170,7 @@
             this.contextDelete.Name = "contextDelete";
             this.contextDelete.Size = new System.Drawing.Size(273, 38);
             this.contextDelete.Text = "Delete";
+            this.contextDelete.Click += new System.EventHandler(this.contextDelete_Click);
             // 
             // contextScheduleTest
             // 
@@ -229,6 +230,14 @@
             this.contextShowLicenseInfo.Size = new System.Drawing.Size(273, 38);
             this.contextShowLicenseInfo.Text = "Show License Info";
             this.contextShowLicenseInfo.Click += new System.EventHandler(this.contextShowLicenseInfo_Click);
+            // 
+            // contextShowPersonLicenseHistory
+            // 
+            this.contextShowPersonLicenseHistory.Image = global::DVLD_WindowsForms.Properties.Resources.PersonLicenseHistory_32;
+            this.contextShowPersonLicenseHistory.Name = "contextShowPersonLicenseHistory";
+            this.contextShowPersonLicenseHistory.Size = new System.Drawing.Size(273, 38);
+            this.contextShowPersonLicenseHistory.Text = "Show Person License History";
+            this.contextShowPersonLicenseHistory.Click += new System.EventHandler(this.contextShowPersonLicenseHistory_Click);
             // 
             // btnAddLocalDrivingLicenseApplications
             // 
@@ -294,14 +303,6 @@
             this.cbStatus.Size = new System.Drawing.Size(98, 26);
             this.cbStatus.TabIndex = 17;
             this.cbStatus.SelectedIndexChanged += new System.EventHandler(this.cbStatus_SelectedIndexChanged);
-            // 
-            // contextShowPersonLicenseHistory
-            // 
-            this.contextShowPersonLicenseHistory.Image = global::DVLD_WindowsForms.Properties.Resources.PersonLicenseHistory_32;
-            this.contextShowPersonLicenseHistory.Name = "contextShowPersonLicenseHistory";
-            this.contextShowPersonLicenseHistory.Size = new System.Drawing.Size(273, 38);
-            this.contextShowPersonLicenseHistory.Text = "Show Person License History";
-            this.contextShowPersonLicenseHistory.Click += new System.EventHandler(this.contextShowPersonLicenseHistory_Click);
             // 
             // LocalDrivingLicenseApplicationsManagementScreen
             // 

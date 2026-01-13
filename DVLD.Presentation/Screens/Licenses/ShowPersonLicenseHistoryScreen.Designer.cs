@@ -30,8 +30,8 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ctrlPersonInfo1 = new DVLD_WindowsForms.UserControls.ctrlPersonInfo();
             this.ctrlDriverLicenses1 = new DVLD_WindowsForms.UserControls.ctrlDriverLicenses();
+            this.ctrlFindPerson1 = new DVLD_WindowsForms.UserControls.ctrlFindPerson();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,42 +53,42 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DVLD_WindowsForms.Properties.Resources.PersonLicenseHistory_512;
-            this.pictureBox1.Location = new System.Drawing.Point(-21, 125);
+            this.pictureBox1.Location = new System.Drawing.Point(-4, 140);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(301, 230);
+            this.pictureBox1.Size = new System.Drawing.Size(260, 242);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // ctrlPersonInfo1
-            //             
-            this.ctrlPersonInfo1.BackColor = System.Drawing.Color.Transparent;
-            this.ctrlPersonInfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrlPersonInfo1.ForeColor = System.Drawing.Color.White;
-            this.ctrlPersonInfo1.Location = new System.Drawing.Point(263, 88);
-            this.ctrlPersonInfo1.Margin = new System.Windows.Forms.Padding(8);
-            this.ctrlPersonInfo1.Name = "ctrlPersonInfo1";
-            this.ctrlPersonInfo1.Size = new System.Drawing.Size(863, 289);
-            this.ctrlPersonInfo1.TabIndex = 8;
             // 
             // ctrlDriverLicenses1
             // 
             this.ctrlDriverLicenses1.BackColor = System.Drawing.Color.Transparent;
             this.ctrlDriverLicenses1.ForeColor = System.Drawing.Color.White;
-            this.ctrlDriverLicenses1.Location = new System.Drawing.Point(-1, 366);
+            this.ctrlDriverLicenses1.Location = new System.Drawing.Point(-1, 419);
             this.ctrlDriverLicenses1.Margin = new System.Windows.Forms.Padding(8);
             this.ctrlDriverLicenses1.Name = "ctrlDriverLicenses1";
-            this.ctrlDriverLicenses1.Size = new System.Drawing.Size(1127, 334);
+            this.ctrlDriverLicenses1.Size = new System.Drawing.Size(1124, 334);
             this.ctrlDriverLicenses1.TabIndex = 9;
+            // 
+            // ctrlFindPerson1
+            // 
+            this.ctrlFindPerson1.BackColor = System.Drawing.Color.Transparent;
+            this.ctrlFindPerson1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctrlFindPerson1.ForeColor = System.Drawing.Color.White;
+            this.ctrlFindPerson1.Location = new System.Drawing.Point(246, 84);
+            this.ctrlFindPerson1.Margin = new System.Windows.Forms.Padding(8);
+            this.ctrlFindPerson1.Name = "ctrlFindPerson1";
+            this.ctrlFindPerson1.Size = new System.Drawing.Size(867, 331);
+            this.ctrlFindPerson1.TabIndex = 10;
+            this.ctrlFindPerson1.OnPersonFound += new System.Action<int>(this.ctrlFindPerson1_OnPersonFound);
             // 
             // ShowPersonLicenseHistoryScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 697);
+            this.ClientSize = new System.Drawing.Size(1125, 754);
+            this.Controls.Add(this.ctrlFindPerson1);
             this.Controls.Add(this.ctrlDriverLicenses1);
-            this.Controls.Add(this.ctrlPersonInfo1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "ShowPersonLicenseHistoryScreen";
@@ -97,8 +97,8 @@
             this.Controls.SetChildIndex(this.btnClose, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.pictureBox1, 0);
-            this.Controls.SetChildIndex(this.ctrlPersonInfo1, 0);
             this.Controls.SetChildIndex(this.ctrlDriverLicenses1, 0);
+            this.Controls.SetChildIndex(this.ctrlFindPerson1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -109,7 +109,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private UserControls.ctrlPersonInfo ctrlPersonInfo1;
         private UserControls.ctrlDriverLicenses ctrlDriverLicenses1;
+        private UserControls.ctrlFindPerson ctrlFindPerson1;
     }
 }

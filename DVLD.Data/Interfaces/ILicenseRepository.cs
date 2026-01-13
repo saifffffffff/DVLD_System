@@ -7,5 +7,6 @@ namespace DVLD_Data.Interfaces
         LicenseDto GetByApplicationId (int ApplicationId);
         bool DeActivateById(int LicenseId);
         bool IsLicenseDetained(int LicenseId);
+        int GetActiveLicenseId(int PersonId, int LicenseClassId);
     }
 }

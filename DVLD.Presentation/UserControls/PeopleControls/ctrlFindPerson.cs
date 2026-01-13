@@ -33,7 +33,7 @@ namespace DVLD_WindowsForms.UserControls
 
         public ctrlPersonInfo PersonCard
         {
-            get { return ctrlPersonInfo; }
+            get { return ctrlPersonInfo1; }
         }
         
 
@@ -49,12 +49,12 @@ namespace DVLD_WindowsForms.UserControls
 
         // Events
 
-        public Action<int> OnPersonFound;
+        public event Action<int> OnPersonFound;
 
         // Adding Person
         public void LoadPersonInfo(int PersonId)
         {
-            ctrlPersonInfo.LoadPersonInfo(PersonId);
+            ctrlPersonInfo1.LoadPersonInfo(PersonId);
             cbFilter.SelectedIndex = 1;
             tbSearch.Text = PersonId.ToString();
         }
@@ -93,18 +93,18 @@ namespace DVLD_WindowsForms.UserControls
             {
                 // person id
                 case 1:
-                    ctrlPersonInfo.LoadPersonInfo(int.Parse(tbSearch.Text));
+                    ctrlPersonInfo1.LoadPersonInfo(int.Parse(tbSearch.Text));
                     break;
                 
                 // national no
                 case 2:
-                    ctrlPersonInfo.LoadPersonInfo(tbSearch.Text);
+                    ctrlPersonInfo1.LoadPersonInfo(tbSearch.Text);
                     break;
                 
             
             }
 
-            OnPersonFound?.Invoke(ctrlPersonInfo.PersonID);
+            OnPersonFound?.Invoke(ctrlPersonInfo1.PersonID);
             
 
         }

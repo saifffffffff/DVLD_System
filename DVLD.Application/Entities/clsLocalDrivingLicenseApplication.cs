@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Net.WebSockets;
 using DVLD_Data.Dtos;
 using DVLD_Data.Interfaces;
 using DVLD_Data.Repositries;
@@ -129,6 +130,12 @@ namespace DVLD_Application.Entities
                     return false;
             }
         }
-    
+
+        public bool IsLicenseIssued()
+        {
+            // return clsLicense.GetActiveLicenseId(this.ApplicantPersonId, LicenseClassID) != -1;
+            return clsLicense.GetByApplicationId(ApplicationId) != null;
+        }
+
     }
 }

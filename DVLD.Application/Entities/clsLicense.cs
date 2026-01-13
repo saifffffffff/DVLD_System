@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using DVLD_Data.Dtos;
 using DVLD_Data.Interfaces;
 using DVLD_Data.Repositries;
@@ -44,7 +39,7 @@ namespace DVLD_Application.Entities
         public enIssueReason IssueReason { get; set; }
 
         public bool IsExpired => ExpirationDate <= DateTime.Now;
-        
+
         public bool IsDetained => _repo.IsLicenseDetained(Id);
 
         // Constructors
@@ -80,7 +75,8 @@ namespace DVLD_Application.Entities
         }
         private LicenseDto _ToDto()
         {
-            return new LicenseDto {
+            return new LicenseDto
+            {
                 Id = this.Id,
                 ApplicationId = this.ApplicationId,
                 CreatedByUserId = this.CreatedByUserId,
@@ -136,7 +132,7 @@ namespace DVLD_Application.Entities
 
         public static bool DeActivate(int LicenseId) => _repo.DeActivateById(LicenseId);
 
-        public clsLicense Renew (string Notes , int CreatedByUserId)
+        public clsLicense Renew(string Notes, int CreatedByUserId)
         {
 
             if (!this.IsActive) return null;
@@ -178,8 +174,8 @@ namespace DVLD_Application.Entities
 
         }
 
-        private clsLicense _Replace( int CreatedByUserId , clsApplicationType.enApplicationType applicationType , clsLicense.enIssueReason issueReason)
-       {
+        private clsLicense _Replace(int CreatedByUserId, clsApplicationType.enApplicationType applicationType, clsLicense.enIssueReason issueReason)
+        {
 
             if (!IsActive) return null;
 
@@ -208,7 +204,7 @@ namespace DVLD_Application.Entities
                 IssueReason = issueReason
             };
 
-            if(!NewLicense.Save())
+            if (!NewLicense.Save())
             {
                 clsApplication.Delete(ReplacementApplication.Id); // rollback   
                 return null;
@@ -218,11 +214,11 @@ namespace DVLD_Application.Entities
 
             return NewLicense;
 
-       }
-        public clsLicense ReplaceForDamaged( int CreatedByUserId) => _Replace(CreatedByUserId, clsApplicationType.enApplicationType.ReplacementForDamagedDrivingLicense, enIssueReason.ReplacementForDamaged);
-        public clsLicense ReplaceForLost(int CreatedByUserId) => _Replace(CreatedByUserId , clsApplicationType.enApplicationType.ReplacementForLostDrivingLicense , enIssueReason.ReplacementForLost);
-       
-        public static int DetainLicense(int LicenseId , decimal FineFees , int CreatedByUserId)
+        }
+        public clsLicense ReplaceForDamaged(int CreatedByUserId) => _Replace(CreatedByUserId, clsApplicationType.enApplicationType.ReplacementForDamagedDrivingLicense, enIssueReason.ReplacementForDamaged);
+        public clsLicense ReplaceForLost(int CreatedByUserId) => _Replace(CreatedByUserId, clsApplicationType.enApplicationType.ReplacementForLostDrivingLicense, enIssueReason.ReplacementForLost);
+
+        public static int DetainLicense(int LicenseId, decimal FineFees, int CreatedByUserId)
         {
             clsDetainedLicense detainedLicense = new clsDetainedLicense()
             {
@@ -238,15 +234,15 @@ namespace DVLD_Application.Entities
 
             if (detainedLicense.Save())
                 return detainedLicense.Id;
-            
+
             return -1;
 
         }
-        
-        public int Detain(decimal FineFees , int CreatedByUserId) => DetainLicense(this.Id , FineFees , CreatedByUserId);
 
-        
+        public int Detain(decimal FineFees, int CreatedByUserId) => DetainLicense(this.Id, FineFees, CreatedByUserId);
 
+        public static bool DoesLicenseExistByPersonId(int PersonId, int LicenseClassId) => _repo.GetActiveLicenseId(PersonId, LicenseClassId) != -1;
 
+        public static int GetActiveLicenseId(int PersonId, int LicenseClassId) => _repo.GetActiveLicenseId(PersonId , LicenseClassId);
     }
 }

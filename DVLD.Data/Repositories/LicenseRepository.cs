@@ -320,5 +320,31 @@ namespace DVLD_Data.Repositries
 
             return IsDetained;
         }
+
+        public int GetActiveLicenseId(int PersonId, int LicenseClassId)
+        {
+
+            string Query = @"select LicenseId 
+                            from Licenses 
+                            join Drivers on Drivers.DriverID = Licenses.DriverID
+                            where Drivers.PersonID = @PersonId and Licenses.IsActive = 1 and Licenses.LicenseClassID = @LicenseClassId";
+
+            var Connection = new SqlConnection(clsDataSettings.ConncetionString);
+            var Command = new SqlCommand(Query, Connection);
+            Command.Parameters.AddWithValue("@PersonId", PersonId);
+            Command.Parameters.AddWithValue("@LicenseClassId", LicenseClassId);
+
+            try
+            {
+                Connection.Open();
+                object Result = Command.ExecuteScalar();
+                
+                return Result != null ? (int)Result : -1;
+            }
+            catch { throw new Exception(); }
+            finally { Connection.Close(); }
+
+
+        }
     }
 }

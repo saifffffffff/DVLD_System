@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ctrlFindPerson1 = new DVLD_WindowsForms.UserControls.ctrlFindPerson();
             this.tcUserInfo = new System.Windows.Forms.TabControl();
             this.tpPersonInfo = new System.Windows.Forms.TabPage();
             this.btnNext = new System.Windows.Forms.Button();
@@ -49,6 +48,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ctrlFindPerson1 = new DVLD_WindowsForms.UserControls.ctrlFindPerson();
             this.tcUserInfo.SuspendLayout();
             this.tpPersonInfo.SuspendLayout();
             this.tpLoginInfo.SuspendLayout();
@@ -61,18 +61,6 @@
             // btnClose
             // 
             this.btnClose.Location = new System.Drawing.Point(910, 14);
-            // 
-            // ctrlFindPerson1
-            // 
-            this.ctrlFindPerson1.BackColor = System.Drawing.Color.Black;
-            this.ctrlFindPerson1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ctrlFindPerson1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrlFindPerson1.ForeColor = System.Drawing.Color.White;
-            this.ctrlFindPerson1.Location = new System.Drawing.Point(21, 56);
-            this.ctrlFindPerson1.Margin = new System.Windows.Forms.Padding(11, 10, 11, 10);
-            this.ctrlFindPerson1.Name = "ctrlFindPerson1";
-            this.ctrlFindPerson1.Size = new System.Drawing.Size(887, 395);
-            this.ctrlFindPerson1.TabIndex = 2;
             // 
             // tcUserInfo
             // 
@@ -88,8 +76,8 @@
             // tpPersonInfo
             // 
             this.tpPersonInfo.BackColor = System.Drawing.Color.Black;
-            this.tpPersonInfo.Controls.Add(this.btnNext);
             this.tpPersonInfo.Controls.Add(this.ctrlFindPerson1);
+            this.tpPersonInfo.Controls.Add(this.btnNext);
             this.tpPersonInfo.Location = new System.Drawing.Point(4, 22);
             this.tpPersonInfo.Name = "tpPersonInfo";
             this.tpPersonInfo.Padding = new System.Windows.Forms.Padding(3);
@@ -102,7 +90,7 @@
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNext.ForeColor = System.Drawing.Color.Black;
             this.btnNext.Image = global::DVLD_WindowsForms.Properties.Resources.Next_32;
-            this.btnNext.Location = new System.Drawing.Point(778, 464);
+            this.btnNext.Location = new System.Drawing.Point(778, 454);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(129, 40);
             this.btnNext.TabIndex = 3;
@@ -274,11 +262,21 @@
             this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProvider1.ContainerControl = this;
             // 
+            // ctrlFindPerson1
+            // 
+            this.ctrlFindPerson1.BackColor = System.Drawing.Color.Transparent;
+            this.ctrlFindPerson1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctrlFindPerson1.ForeColor = System.Drawing.Color.White;
+            this.ctrlFindPerson1.Location = new System.Drawing.Point(24, 40);
+            this.ctrlFindPerson1.Margin = new System.Windows.Forms.Padding(8);
+            this.ctrlFindPerson1.Name = "ctrlFindPerson1";
+            this.ctrlFindPerson1.Size = new System.Drawing.Size(883, 391);
+            this.ctrlFindPerson1.TabIndex = 4;
+            // 
             // AddUpdateUserScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(978, 669);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblTitle);
@@ -304,8 +302,6 @@
         }
 
         #endregion
-
-        private UserControls.ctrlFindPerson ctrlFindPerson1;
         private System.Windows.Forms.TabControl tcUserInfo;
         private System.Windows.Forms.TabPage tpPersonInfo;
         private System.Windows.Forms.TabPage tpLoginInfo;
@@ -325,5 +321,6 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private UserControls.ctrlFindPerson ctrlFindPerson1;
     }
 }

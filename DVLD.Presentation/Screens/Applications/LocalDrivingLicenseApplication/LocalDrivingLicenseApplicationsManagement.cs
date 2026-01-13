@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 using DVLD_Application.Entities;
 using DVLD_WindowsForms.Helpers;
@@ -12,25 +13,19 @@ namespace DVLD_WindowsForms.Screens.Applications
     public partial class LocalDrivingLicenseApplicationsManagementScreen : ScreenToInherit
     {
 
-        private DataTable _apps = clsLocalDrivingLicenseApplication.GetAll();
-        private DataView _view;
+        private DataTable _dtApps;
 
         public LocalDrivingLicenseApplicationsManagementScreen()
         {
             InitializeComponent();
         }
 
-        private void _refreshAppsGrid()
-        {
-            _view = clsLocalDrivingLicenseApplication.GetAll().DefaultView;
-            dgvApps.DataSource = _view;
-        }
 
         private void LocalDrivingLicenseApplicationsManagement_Load(object sender, EventArgs e)
         {
-            _view = _apps.DefaultView;
+            _dtApps = clsLocalDrivingLicenseApplication.GetAll();
             
-            dgvApps.DataSource = _view;
+            dgvApps.DataSource = _dtApps;
 
             if (dgvApps.Columns.Count > 0) {
 
@@ -64,7 +59,7 @@ namespace DVLD_WindowsForms.Screens.Applications
         private void btnAddLocalDrivingLicenseApplications_Click(object sender, EventArgs e)
         {
             clsGlobal.ShowDialog(new AddUpdateLocalDrivingLicenseApplicationScreen());
-            _refreshAppsGrid();
+            LocalDrivingLicenseApplicationsManagement_Load(null , null);
         }
 
 
@@ -73,7 +68,7 @@ namespace DVLD_WindowsForms.Screens.Applications
         {
             string Filter = cbFilter.SelectedItem.ToString();
 
-            _view.RowFilter = "";
+            _dtApps.DefaultView.RowFilter = "";
             
             if (Filter == "None")
             {
@@ -101,13 +96,13 @@ namespace DVLD_WindowsForms.Screens.Applications
             string FilterColumn = cbFilter.SelectedItem.ToString().Replace(" ", "");
             
             if ( SearchText == "")
-                _view.RowFilter = "";
+                _dtApps.DefaultView.RowFilter = "";
 
             else if ( FilterColumn.Contains("ID")) 
-                    _view.RowFilter = $"{FilterColumn }= {SearchText}";
+                    _dtApps.DefaultView.RowFilter = $"{FilterColumn} = {SearchText}";
             
             else
-                _view.RowFilter = $"{FilterColumn} Like '{SearchText}%'";
+                _dtApps.DefaultView.RowFilter = $"{FilterColumn} Like '{SearchText}%'";
         
         }
 
@@ -123,11 +118,11 @@ namespace DVLD_WindowsForms.Screens.Applications
 
             if ( Status == "All" )
             {
-                _view.RowFilter = "";
+                _dtApps.DefaultView.RowFilter = "";
                 return;
             }
 
-            _view.RowFilter = $"Status Like '{Status}'";
+            _dtApps.DefaultView.RowFilter = $"Status Like '{Status}'";
 
             
             
@@ -137,22 +132,22 @@ namespace DVLD_WindowsForms.Screens.Applications
         // Context Menu 
         private void contextShowDetails_Click(object sender, EventArgs e)
         {
-            clsGlobal.ShowDialog(new ShowLocalDrivingLicenseApplicationInfo((int)dgvApps.SelectedRows[0].Cells[0].Value));
-            _refreshAppsGrid();
+            clsGlobal.ShowDialog(new ShowLocalDrivingLicenseApplicationInfo((int)dgvApps.CurrentRow.Cells[0].Value));
+            LocalDrivingLicenseApplicationsManagement_Load(null, null);
         }
 
         private void contextVisionTest_Click(object sender, EventArgs e)
         {
             int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
             clsGlobal.ShowDialog(new ShowAllTestAppointmentsScreen(SelectedAppId , (int)clsTestType.enTestTypes.VisionTest));
-            _refreshAppsGrid();
+            LocalDrivingLicenseApplicationsManagement_Load(null, null);
         }
 
         private void contextWrittenTest_Click(object sender, EventArgs e)
         {
             int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
             clsGlobal.ShowDialog(new ShowAllTestAppointmentsScreen(SelectedAppId, (int)clsTestType.enTestTypes.WrittenTest));
-            _refreshAppsGrid();
+            LocalDrivingLicenseApplicationsManagement_Load(null, null);
 
         }
 
@@ -160,15 +155,15 @@ namespace DVLD_WindowsForms.Screens.Applications
         {
             int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
             clsGlobal.ShowDialog(new ShowAllTestAppointmentsScreen(SelectedAppId, (int)clsTestType.enTestTypes.PracticalTest));
-            _refreshAppsGrid();
+            LocalDrivingLicenseApplicationsManagement_Load(null, null);
 
         }
 
         private void contextEdit_Click(object sender, EventArgs e)
         {
-            int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
-            clsGlobal.ShowDialog(new AddUpdateLocalDrivingLicenseApplicationScreen(SelectedAppId));
-            _refreshAppsGrid();
+            int SelectedApplicationId = (int)dgvApps.CurrentRow.Cells[0].Value;
+            clsGlobal.ShowDialog(new AddUpdateLocalDrivingLicenseApplicationScreen(SelectedApplicationId));
+            LocalDrivingLicenseApplicationsManagement_Load(null, null);
         }
        
         private void contextIssueDrivingLicense_Click(object sender, EventArgs e)
@@ -176,69 +171,8 @@ namespace DVLD_WindowsForms.Screens.Applications
             
             int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
             clsGlobal.ShowDialog(new IssueDrivingLicenseScreen(SelectedAppId));
-            _refreshAppsGrid();
+            LocalDrivingLicenseApplicationsManagement_Load(null, null);
 
-        }
-
-        private void contextMenuStrip1_Opened(object sender, EventArgs e)
-        {
-            
-            int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
-
-            var Application = clsLocalDrivingLicenseApplication.GetById(SelectedAppId);
-
-            if (Application.Status != clsApplication.enApplicationStatus.New)
-            {
-                contextEdit.Enabled = false;
-                contextDelete.Enabled = false;
-                contextScheduleTest.Enabled = false;
-                contextIssueDrivingLicense.Enabled = false;
-                contextCancelApplication.Enabled = false;
-                
-                contextShowLicenseInfo.Enabled = Application.Status == clsApplication.enApplicationStatus.Completed ?  true : false;
-                    return;
-            }
-
-            // New Status 
-
-            contextIssueDrivingLicense.Enabled = false;
-            contextEdit.Enabled = true;
-            contextDelete.Enabled = true;
-            contextScheduleTest.Enabled = true;
-            contextCancelApplication.Enabled = true;
-            contextShowLicenseInfo.Enabled = false ;
-
-            if (Application.PassedTestsCount == 0)
-            {
-                contextVisionTest.Enabled = true;
-                contextWrittenTest.Enabled = false;
-                contextStreetTest.Enabled = false;
-            }
-            
-            else if (Application.PassedTestsCount == 1)
-            {
-                contextVisionTest.Enabled = false;
-                contextWrittenTest.Enabled = true;
-                contextStreetTest.Enabled = false;
-            }
-            
-            else if (Application.PassedTestsCount == 2)
-            {
-                contextVisionTest.Enabled = false;
-                contextWrittenTest.Enabled = false;
-                contextStreetTest.Enabled = true;
-            }
-
-            // Issue a local driving license
-            else
-            {
-                contextEdit.Enabled = true;
-                contextDelete.Enabled = true;
-                contextScheduleTest.Enabled = false;
-                contextIssueDrivingLicense.Enabled = true;
-            }
-            
-          
         }
 
         private void contextCancelApplication_Click(object sender, EventArgs e)
@@ -250,7 +184,7 @@ namespace DVLD_WindowsForms.Screens.Applications
                 if (clsLocalDrivingLicenseApplication.GetById(SelectedAppId).Cancel())
                 {
                     MessageBox.Show("Application Canceled Successfully");
-                    _refreshAppsGrid();
+                    LocalDrivingLicenseApplicationsManagement_Load(null, null);
                 }
 
                 else
@@ -273,10 +207,61 @@ namespace DVLD_WindowsForms.Screens.Applications
 
         private void contextShowPersonLicenseHistory_Click(object sender, EventArgs e)
         {
-            string SelectedNationalNo = dgvApps.SelectedRows[0].Cells[2].Value.ToString();
+            string SelectedNationalNo = dgvApps.CurrentRow.Cells[2].Value.ToString();
 
             clsGlobal.ShowDialog(new ShowPersonLicenseHistoryScreen(clsPerson.GetByNationalNo(SelectedNationalNo).Id));
 
+        }
+
+        private void contextDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure do want to delete this application?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+            
+            int SelectedAppId = (int)dgvApps.CurrentRow.Cells[0].Value;
+
+            if ( clsApplication.Delete(SelectedAppId) )
+            {
+                MessageBox.Show("Application Deleted Successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LocalDrivingLicenseApplicationsManagement_Load(null, null);
+            }
+            else
+            {
+                MessageBox.Show("Could not delete applicatoin, other data depends on it.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void contextMenuStrip1_Opened(object sender, EventArgs e)
+        {
+            
+            int SelectedApplicationId = (int)dgvApps.CurrentRow.Cells[0].Value;
+
+            var LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(SelectedApplicationId);
+
+            // is license issued -> application isLicenseIssued
+            
+            
+            int PassedTestsCount = (int)dgvApps.CurrentRow.Cells[5].Value;
+            
+            bool IsLicenseIssued = LocalDrivingLicenseApplication.IsLicenseIssued();
+
+            contextEdit.Enabled = !IsLicenseIssued && LocalDrivingLicenseApplication.Status != clsApplication.enApplicationStatus.Cancelled;
+            
+            contextDelete.Enabled = !IsLicenseIssued;
+            
+            contextScheduleTest.Enabled = !IsLicenseIssued && LocalDrivingLicenseApplication.Status == clsApplication.enApplicationStatus.New && PassedTestsCount != 3;
+            
+            contextIssueDrivingLicense.Enabled = !IsLicenseIssued && LocalDrivingLicenseApplication.Status != clsApplication.enApplicationStatus.Cancelled && PassedTestsCount == 3;
+            contextCancelApplication.Enabled = !IsLicenseIssued && LocalDrivingLicenseApplication.Status == clsApplication.enApplicationStatus.New;
+
+            contextShowLicenseInfo.Enabled = IsLicenseIssued;
+
+            contextVisionTest.Enabled =  PassedTestsCount == 0;
+            contextWrittenTest.Enabled = PassedTestsCount == 1;
+            contextStreetTest.Enabled = PassedTestsCount == 2;
+           
+          
         }
     }
 }

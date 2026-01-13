@@ -15,40 +15,45 @@ namespace DVLD_WindowsForms.Screens.Licenses
     public partial class ShowPersonLicenseHistoryScreen : DialogToInherit
     {
         int _PersonId = -1;
-        clsPerson _Person;
         
         public ShowPersonLicenseHistoryScreen(int PersonId)
         {
             InitializeComponent();
             _PersonId = PersonId;
         }
+        public ShowPersonLicenseHistoryScreen()
+        {
+            InitializeComponent();
+        }
 
         private void ShowPersonLicenseHistoryScreen_Load(object sender, EventArgs e)
         {
             
-            _Person = clsPerson.GetById(_PersonId);
-
-            if ( _Person == null)
+            if (_PersonId != -1)
             {
-                MessageBox.Show($"Person With ID {_PersonId} Not Found");
-                Close();
-                return;
+                ctrlFindPerson1.LoadPersonInfo(_PersonId);
+                ctrlFindPerson1.EnableFindingPerson = false;
+                ctrlDriverLicenses1.LoadLicenseInfoByPersonId(_PersonId);
+            }
+            else
+            {
+                ctrlFindPerson1.EnableFindingPerson = true;
             }
 
-            ctrlPersonInfo1.LoadPersonInfo(_PersonId);
-
-            var Driver = clsDriver.GetByPersonId(_PersonId);
-            
-            if ( Driver != null )
-                ctrlDriverLicenses1.LoadLicensesInfo(Driver.Id);
-
-
+           
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void ctrlFindPerson1_OnPersonFound(int FoundPersonId)
         {
+            _PersonId = FoundPersonId;
             
-            MessageBox.Show("Updated succesf");
+            if (_PersonId == -1)
+                ctrlDriverLicenses1.Clear();
+            
+            else
+                ctrlDriverLicenses1.LoadLicenseInfoByPersonId(_PersonId);
         }
+
+  
     }
 }

@@ -99,8 +99,9 @@ namespace DVLD_Application.Entities
 
         protected override bool _Update() => _repo.Update(ToDto());
         
-
         public static bool Delete(int Id) => _repo.DeleteById(Id);
+        
+        public static bool IsExist(int Id) => _repo.IsExist(Id);
 
         public static clsPerson GetById(int Id)
         {

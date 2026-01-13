@@ -93,10 +93,10 @@ namespace DVLD_WindowsForms.Screens.Applications
             var Classes = clsLicenseClass.GetAll();
             
             foreach (DataRow Class in Classes.Rows){
-                cbLicenseClass.Items.Add(Class["ClassName"].ToString());
+                cbLicenseClass.Items.Add(Class["ClassName"]);
             }
         
-            cbLicenseClass.SelectedIndex = 0;
+            cbLicenseClass.SelectedIndex = 2;
         
         }
         private void AddUpdateLocalDrivingLicenseApplicationScreen_Load(object sender, EventArgs e)
@@ -126,15 +126,16 @@ namespace DVLD_WindowsForms.Screens.Applications
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (ctrlFindPerson1.PersonCard.PersonID == -1)
+            if ( _Mode == enMode.Add && ctrlFindPerson1.PersonCard.PersonID == -1 )
             {
-                MessageBox.Show("Select A Person");
+                MessageBox.Show("Please Select a Person", "Select a Person", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ctrlFindPerson1.SearchTextboxFocus();
                 return;
             }
             
             tpApplicationInfo.Enabled = true;
-            tcLicenseInfo.SelectedIndex = 1;
             btnSave.Enabled = true;
+            tcLicenseInfo.SelectedIndex = 1;
 
         }
 
@@ -155,6 +156,12 @@ namespace DVLD_WindowsForms.Screens.Applications
                 return;
             }
 
+            if ( clsLicense.DoesLicenseExistByPersonId( ctrlFindPerson1.PersonCard.PersonID, _selectedLicenseClass.Id))
+            {
+                MessageBox.Show("Person already have a license with the same applied driving class, Choose diffrent driving class", "Not allowed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             _FillToLocalDrivingLicenseApplication();
 
             if (_LocalDrivingLicenseApplication.Save())
@@ -169,9 +176,8 @@ namespace DVLD_WindowsForms.Screens.Applications
                 
             }
             else
-            {
                 MessageBox.Show("Not Saved");
-            }
+            
 
         }
     

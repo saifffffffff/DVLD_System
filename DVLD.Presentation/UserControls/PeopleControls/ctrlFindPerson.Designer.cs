@@ -29,27 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ctrlPersonInfo = new DVLD_WindowsForms.UserControls.ctrlPersonInfo();
             this.label1 = new System.Windows.Forms.Label();
             this.cbFilter = new System.Windows.Forms.ComboBox();
             this.btnAddPerson = new System.Windows.Forms.Button();
             this.btnSearchPerson = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.tbSearch = new System.Windows.Forms.TextBox();
+            this.ctrlPersonInfo1 = new DVLD_WindowsForms.UserControls.ctrlPersonInfo();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ctrlPersonInfo
-            // 
-            this.ctrlPersonInfo.BackColor = System.Drawing.Color.Black;
-            this.ctrlPersonInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ctrlPersonInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctrlPersonInfo.ForeColor = System.Drawing.Color.White;
-            this.ctrlPersonInfo.Location = new System.Drawing.Point(-2, 88);
-            this.ctrlPersonInfo.Margin = new System.Windows.Forms.Padding(8);
-            this.ctrlPersonInfo.Name = "ctrlPersonInfo";
-            this.ctrlPersonInfo.Size = new System.Drawing.Size(887, 305);
-            this.ctrlPersonInfo.TabIndex = 0;
             // 
             // label1
             // 
@@ -109,15 +97,27 @@
             this.tbSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbSearch_KeyPress);
             this.tbSearch.Validating += new System.ComponentModel.CancelEventHandler(this.tbSearch_Validating);
             // 
+            // ctrlPersonInfo1
+            // 
+            this.ctrlPersonInfo1.BackColor = System.Drawing.Color.Transparent;
+            this.ctrlPersonInfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctrlPersonInfo1.ForeColor = System.Drawing.Color.White;
+            this.ctrlPersonInfo1.Location = new System.Drawing.Point(-9, 69);
+            this.ctrlPersonInfo1.Margin = new System.Windows.Forms.Padding(8);
+            this.ctrlPersonInfo1.Name = "ctrlPersonInfo1";
+            this.ctrlPersonInfo1.Size = new System.Drawing.Size(863, 284);
+            this.ctrlPersonInfo1.TabIndex = 61;
+            // 
             // ctrlFindPerson
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.ctrlPersonInfo1);
             this.Controls.Add(this.tbSearch);
             this.Controls.Add(this.btnSearchPerson);
             this.Controls.Add(this.btnAddPerson);
             this.Controls.Add(this.cbFilter);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.ctrlPersonInfo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ctrlFindPerson";
             this.Size = new System.Drawing.Size(883, 391);
@@ -128,13 +128,12 @@
         }
 
         #endregion
-
-        private ctrlPersonInfo ctrlPersonInfo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbFilter;
         private System.Windows.Forms.Button btnAddPerson;
         private System.Windows.Forms.Button btnSearchPerson;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.TextBox tbSearch;
+        private ctrlPersonInfo ctrlPersonInfo1;
     }
 }
