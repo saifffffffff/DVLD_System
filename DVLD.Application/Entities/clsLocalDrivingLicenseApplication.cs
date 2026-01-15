@@ -24,11 +24,11 @@ namespace DVLD_Application.Entities
 
         private clsLocalDrivingLicenseApplication(LocalDrivingLicenseApplicationDto dto) : this()
         {
-            LoadFromDto(dto);
+            _LoadFromDto(dto);
             _Mode = enMode.Update;
         }
 
-        private void LoadFromDto(LocalDrivingLicenseApplicationDto dto)
+        private void _LoadFromDto(LocalDrivingLicenseApplicationDto dto)
         {
             if (dto == null) return;
 
@@ -56,7 +56,7 @@ namespace DVLD_Application.Entities
             LicenseClass = LicenseClassID != -1 ? clsLicenseClass.GetById(LicenseClassID) : null;
         }
 
-        private LocalDrivingLicenseApplicationDto ToDto()
+        private LocalDrivingLicenseApplicationDto _ToDto()
         {
             return new LocalDrivingLicenseApplicationDto
             {
@@ -68,7 +68,7 @@ namespace DVLD_Application.Entities
 
         protected new bool _Add()
         {
-            Id = _repo.Add(ToDto());
+            Id = _repo.Add(_ToDto());
 
             if (Id != -1)
             {
@@ -78,7 +78,7 @@ namespace DVLD_Application.Entities
             return false;
         }
 
-        protected new bool _Update() => _repo.Update(ToDto());
+        protected new bool _Update() => _repo.Update(_ToDto());
 
         public static new DataTable GetAll() => _repo.GetAll();
 
@@ -86,17 +86,6 @@ namespace DVLD_Application.Entities
         {
             var dto = _repo.GetById(Id);
             return dto != null ? new clsLocalDrivingLicenseApplication(dto) : null;
-        }
-
-        
-        /// <returns> -1 if Local Driving license Application ID is not found </returns>
-        public static sbyte CountPassedTests(int LocalDrivingLicenseApplicationId)
-        {
-
-            if ( !IsExist(LocalDrivingLicenseApplicationId)) { return -1; }
-
-            return (sbyte)_repo.PassedTestsCount(LocalDrivingLicenseApplicationId);
-
         }
 
         public static new bool Delete(int Id) => _repo.DeleteById(Id);
@@ -130,11 +119,72 @@ namespace DVLD_Application.Entities
                     return false;
             }
         }
+        
+        /// <returns> -1 if Local Driving license Application ID is not found </returns>
+        public static sbyte CountPassedTests(int LocalDrivingLicenseApplicationId)
+        {
+
+            if ( !IsExist(LocalDrivingLicenseApplicationId)) { return -1; }
+
+            return (sbyte)_repo.PassedTestsCount(LocalDrivingLicenseApplicationId);
+
+        }
 
         public bool IsLicenseIssued()
         {
             // return clsLicense.GetActiveLicenseId(this.ApplicantPersonId, LicenseClassID) != -1;
+            return IsLicenseIssued(ApplicationId);
+        }
+
+        public static bool IsLicenseIssued(int ApplicationId)
+        {
             return clsLicense.GetByApplicationId(ApplicationId) != null;
+        }
+
+        public bool PassedAllTests => PassedTestsCount == 3; 
+
+        public int IssueDrivingLicenseFirstTime(int CreatedByUserId, string Notes)
+        {
+
+            clsDriver driver = clsDriver.GetByPersonId(ApplicantPersonId);
+
+            if (driver == null)
+            {
+                driver = new clsDriver();
+                driver.PersonId = ApplicantPersonId;
+                driver.CreatedDate = DateTime.Now;
+                driver.CreatedByUserId = CreatedByUserId;
+
+                if (!driver.Save())
+                    return -1;
+                
+            }
+
+            if (!PassedAllTests) return -1;
+            
+            if ( IsLicenseIssued()) return -1;
+
+            clsLicense license = new clsLicense();
+
+            license.ApplicationId = ApplicationId;
+            license.LicenseClassId = LicenseClassID;
+            license.CreatedByUserId = CreatedByUserId;
+            license.PaidFees = LicenseClass.Fees;
+            license.IssueReason = clsLicense.enIssueReason.FirstTime;
+            license.IssueDate = DateTime.Now;
+            license.ExpirationDate = DateTime.Now.AddYears(LicenseClass.DefaultValidityLength);
+            license.Notes = Notes;
+            license.IsActive = true;
+            license.DriverId = driver.Id;
+
+
+            if (license.Save())
+                return license.Id;
+
+            return -1;
+
+
+
         }
 
     }

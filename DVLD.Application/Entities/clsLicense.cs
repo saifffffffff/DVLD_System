@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 using DVLD_Data.Dtos;
 using DVLD_Data.Interfaces;
@@ -243,6 +244,8 @@ namespace DVLD_Application.Entities
 
         public static bool DoesLicenseExistByPersonId(int PersonId, int LicenseClassId) => _repo.GetActiveLicenseId(PersonId, LicenseClassId) != -1;
 
-        public static int GetActiveLicenseId(int PersonId, int LicenseClassId) => _repo.GetActiveLicenseId(PersonId , LicenseClassId);
+        public static int GetActiveLicenseId(int PersonId, int LicenseClassId) => _repo.GetActiveLicenseId(PersonId, LicenseClassId);
+
+       
     }
 }

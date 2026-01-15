@@ -15,78 +15,47 @@ namespace DVLD_WindowsForms.Screens.Licenses
 {
     public partial class IssueDrivingLicenseScreen : DialogToInherit
     {
-        int _LocalDrivingLicenseID = -1;
+        int _LocalDrivingLicenseApplicationID = -1;
         clsLocalDrivingLicenseApplication _LocalDrivingLicenseApplication;
 
-        clsLicense _License;
         public IssueDrivingLicenseScreen(int LocalDrivingLicenseID)
         {
             InitializeComponent();
-            _LocalDrivingLicenseID = LocalDrivingLicenseID;
+            _LocalDrivingLicenseApplicationID = LocalDrivingLicenseID;
         }
 
         private void IssueDrivingLicenseScreen_Load(object sender, EventArgs e)
         {
             
-            _LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_LocalDrivingLicenseID);
+            _LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_LocalDrivingLicenseApplicationID);
 
             if ( _LocalDrivingLicenseApplication == null)
             {
-                MessageBox.Show($"Local Driving License Application With ID {_LocalDrivingLicenseID} Not Found");
+                MessageBox.Show($"Local Driving License Application With ID {_LocalDrivingLicenseApplicationID} Not Found");
                 Close();
                 return;
             }
 
-            ctrlLocalDrivingLicenseApplicationInfo1.LoadInfo(_LocalDrivingLicenseID);
+            ctrlLocalDrivingLicenseApplicationInfo1.LoadInfo(_LocalDrivingLicenseApplicationID);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            _License = new clsLicense(); 
-
-            clsDriver Driver = clsDriver.GetByPersonId(_LocalDrivingLicenseApplication.ApplicantPersonId);
-
-            if (Driver == null) {
-                
-                Driver = new clsDriver();
-                Driver.PersonId = _LocalDrivingLicenseApplication.ApplicantPersonId;
-                Driver.CreatedDate = DateTime.Now;
-                Driver.CreatedByUserId = clsGlobal.SystemUser.Id;
-                
-                if ( !Driver.Save() )
-                {
-                    MessageBox.Show("Somthing Went Wrong" , "Error" , MessageBoxButtons.OK , MessageBoxIcon.Error );
-                    Close();
-                    return;
-                }
-
-            }
             
-            _License.ApplicationId = _LocalDrivingLicenseApplication.ApplicationId;
-            _License.LicenseClassId = _LocalDrivingLicenseApplication.LicenseClassID;
-            _License.CreatedByUserId = clsGlobal.SystemUser.Id;
-            _License.PaidFees = _LocalDrivingLicenseApplication.PaidFees;
-            _License.IssueReason = clsLicense.enIssueReason.FirstTime;
-            _License.IssueDate = DateTime.Now;
-            _License.ExpirationDate = DateTime.Now.AddYears(_LocalDrivingLicenseApplication.LicenseClass.DefaultValidityLength);
-            _License.Notes = tbNotes.Text;
-            _License.IsActive = true;
-            _License.DriverId = Driver.Id;
-            
+            int LicenseId = _LocalDrivingLicenseApplication.IssueDrivingLicenseFirstTime(clsGlobal.SystemUser.Id , tbNotes.Text);
 
-           if ( _License.Save() )
-           {
+            if ( LicenseId != -1 )
+            {
                 MessageBox.Show("Saved Successfully" , "Saved" , MessageBoxButtons.OK , MessageBoxIcon.Information );
-                Close(); return;
-           }
+                Close();
+            }
            
-           else
-           {
+            else
+            {
                 MessageBox.Show("Somthing Went Wrong", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
-                return;
-           }
-            
+            }
+
         }
     }
 }

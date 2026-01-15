@@ -20,7 +20,6 @@ namespace DVLD_WindowsForms.Screens.Applications
             InitializeComponent();
         }
 
-
         private void LocalDrivingLicenseApplicationsManagement_Load(object sender, EventArgs e)
         {
             _dtApps = clsLocalDrivingLicenseApplication.GetAll();
@@ -198,11 +197,16 @@ namespace DVLD_WindowsForms.Screens.Applications
             int SelectedAppId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
             
             var LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(SelectedAppId);
-            var ApplicationId = LocalDrivingLicenseApplication.ApplicationId;
-            var License = clsLicense.GetByApplicationId(ApplicationId);
+            var License = clsLicense.GetByApplicationId(LocalDrivingLicenseApplication.ApplicationId);
             
-            clsGlobal.ShowDialog(new ShowLicenseInfoScreen(License.Id));
+            if (License == null)
+            {
+                MessageBox.Show("License not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            clsGlobal.ShowDialog(new ShowLicenseInfoScreen(License.Id));
+                
         }
 
         private void contextShowPersonLicenseHistory_Click(object sender, EventArgs e)
@@ -263,5 +267,6 @@ namespace DVLD_WindowsForms.Screens.Applications
            
           
         }
+   
     }
 }

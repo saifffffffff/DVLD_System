@@ -12,7 +12,7 @@ namespace DVLD_Data.Repositries
     {
         public bool IsExist(int Id)
         {
-            bool IsFound = false;
+            
             var Connection = new SqlConnection(clsDataSettings.ConncetionString);
             string Query = "SELECT 1 FROM Drivers WHERE DriverID = @Id";
             var Command = new SqlCommand(Query, Connection);
@@ -22,12 +22,12 @@ namespace DVLD_Data.Repositries
             {
                 Connection.Open();
                 object result = Command.ExecuteScalar();
-                if (result != null) IsFound = true;
+                return  (result != null);
             }
-            catch { IsFound = false; }
+            catch { }
             finally { Connection.Close(); }
 
-            return IsFound;
+            return false;
         }
 
         public DataTable GetAll()

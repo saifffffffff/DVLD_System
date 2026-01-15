@@ -104,5 +104,7 @@ namespace DVLD_Application.Entities
 
             return internationalLicenses;
         }
+
+        public static bool IsExists(int DriverId ) => _repo.IsExist(DriverId);
     }
 }
