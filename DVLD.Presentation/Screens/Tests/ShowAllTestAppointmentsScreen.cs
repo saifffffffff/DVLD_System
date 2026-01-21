@@ -42,7 +42,7 @@ namespace DVLD_WindowsForms.Screens.TestsManagement
             dgvApps.Columns[2].HeaderText = "Paid Fees";
             dgvApps.Columns[3].HeaderText = "Is Locked";
         }
-        private void _LoadTestTypeImage()
+        private void _LoadTestTypeImageAndTitle()
         {
             switch (_TestType)
             {
@@ -74,7 +74,7 @@ namespace DVLD_WindowsForms.Screens.TestsManagement
             localDrivingLicenseApplicationInfo1.LoadInfo(_LocalDrivingLicenseApplicationId);
             
             _InitDataGrid();
-            _LoadTestTypeImage();
+            _LoadTestTypeImageAndTitle();
 
         }
         

@@ -4,9 +4,9 @@ using DVLD_WindowsForms.Helpers;
 using DVLD_WindowsForms.Screens.Core;
 namespace DVLD_WindowsForms.Screens.Applications.DetainLicenseApplication
 {
-    public partial class DetainLicenseScreen : DialogToInherit
+    public partial class DetainLicenseApplicationScreen : DialogToInherit
     {
-        public DetainLicenseScreen()
+        public DetainLicenseApplicationScreen()
         {
             InitializeComponent();
         }
@@ -43,39 +43,41 @@ namespace DVLD_WindowsForms.Screens.Applications.DetainLicenseApplication
             
             lblDetainID.Text = DetainedLicenseId.ToString();
             ctrlFindLocalLicense1.RefreshInfo();
-            btnDetainLicense.Enabled = false;
             ctrlFindLocalLicense1.DisableFilter();
+            btnDetainLicense.Enabled = false;
+            lnkShowLicenseInfo.Visible = true;
             MessageBox.Show("License Detained Successfully", "License Detained", MessageBoxButtons.OK, MessageBoxIcon.Information);
             
 
 
         }
 
+        private void _ShowMessageBoxError(string message)
+        {
+            ctrlFindLocalLicense1.Clear();
+            btnDetainLicense.Enabled = false;
+            lnkShowLicenseHistory.Visible = false;
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         private void ctrlFindLocalLicense1_OnSelected()
         {
 
             if (ctrlFindLocalLicense1.License.IsExpired)
             {
-                ctrlFindLocalLicense1.Clear();
-                btnDetainLicense.Enabled = false;
-                MessageBox.Show($"License Is Expired !", "Expired License", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _ShowMessageBoxError($"License Is Expired !");
             }
             else if (!ctrlFindLocalLicense1.License.IsActive)
             {
-                ctrlFindLocalLicense1.Clear();
-                btnDetainLicense.Enabled = false;
-                MessageBox.Show($"License Is Not Active !", "Not Active License", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                _ShowMessageBoxError("License Is Not Active !");
             }
             else if (ctrlFindLocalLicense1.License.IsDetained)
             {
-                ctrlFindLocalLicense1.Clear();
-                btnDetainLicense.Enabled = false;
-                MessageBox.Show($"License Is Already Detained !", "Already Detained License", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _ShowMessageBoxError("License Is Already Detained !");
             }
             else
             {
                 lblLicenseID.Text = ctrlFindLocalLicense1.License.Id.ToString();
+                lnkShowLicenseHistory.Visible = true;
                 btnDetainLicense.Enabled = true;
             }
         }
@@ -92,7 +94,7 @@ namespace DVLD_WindowsForms.Screens.Applications.DetainLicenseApplication
 
         private void tbFineFees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbFineFees.Text))
+            if (string.IsNullOrEmpty(tbFineFees.Text.Trim()))
             {
                 e.Cancel = true;
                 errorProvider1.SetError(tbFineFees, "Fine Fees is required.");
@@ -103,6 +105,18 @@ namespace DVLD_WindowsForms.Screens.Applications.DetainLicenseApplication
                 errorProvider1.SetError(tbFineFees, "");
             }
 
+        }
+
+        private void lnkShowLicenseHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if ( ctrlFindLocalLicense1.License == null) return;
+            clsGlobal.ShowDialog(new Licenses.ShowPersonLicenseHistoryScreen(ctrlFindLocalLicense1.License.Application.ApplicantPersonId), true);
+        }
+
+        private void lnkShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (ctrlFindLocalLicense1.License == null) return;
+            clsGlobal.ShowDialog(new Licenses.ShowLicenseInfoScreen(ctrlFindLocalLicense1.License.Id),  true);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace DVLD_WindowsForms.Screens.DetainedLicenses
 
         private void btnDetainLicense_Click(object sender, EventArgs e)
         {
-            clsGlobal.ShowDialog(new DetainLicenseScreen());
+            clsGlobal.ShowDialog(new DetainLicenseApplicationScreen());
             DetainedLicensesManagement_Load(null, null);
         }
 

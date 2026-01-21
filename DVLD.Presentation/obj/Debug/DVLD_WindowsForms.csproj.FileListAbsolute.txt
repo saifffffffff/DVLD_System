@@ -132,7 +132,6 @@ C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\bin\Debug\DVLD_Data.pdb
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.csproj.AssemblyReference.cache
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.exe.config
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.Screens.Applications.ReleaseLicenseApplication.ReleaseLicenseApplicationScreen.resources
-C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.Screens.Applications.DetainLicenseApplication.DetainLicenseScreen.resources
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseApplication.AddInternationalDrivingLicenseApplication.resources
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseApplication.InternationalDrivingLicenseApplicationsManagement.resources
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.Screens.Applications.AddUpdateLocalDrivingLicenseApplicationScreen.resources
@@ -184,3 +183,4 @@ C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_Win.5C2647B2
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.exe
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.pdb
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\bin\Debug\DVLD_Application.dll
+C:\Users\tareq\Desktop\DVLD_System\DVLD.Presentation\obj\Debug\DVLD_WindowsForms.Screens.Applications.DetainLicenseApplication.DetainLicenseApplicationScreen.resources
