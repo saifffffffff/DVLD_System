@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLD_Application.Entities;
@@ -23,26 +24,26 @@ namespace DVLD_WindowsForms.Screens.TestAppointments
 
         enMode _Mode;
 
-        private int _TestTypeId = -1;
-        private clsTestType _TestType;
+        private int _testTypeId = -1;
+        private clsTestType _testType;
 
-        private int _LocalDrivingLicenseApplicationId = -1;
-        private clsLocalDrivingLicenseApplication _LocalDrivingLicenseApplication = null;
+        private int _localDrivingLicenseApplicationId = -1;
+        private clsLocalDrivingLicenseApplication _localDrivingLicenseApplication ;
 
-        private int _TestAppointmentId = -1;
-        private clsTestAppointment _TestAppointment = null;
+        private int _testAppointmentId = -1;
+        private clsTestAppointment _testAppointment ;
 
-        int _TestTrials;
+        bool _isRetakeTest;
         
-        clsApplication _RetakeTestApplication ;
+        clsApplication _retakeTestApplication ;
 
         // Add
         public AddUpdateTestAppointmentScreen(int TestTypeId, int localDrivingLicenseApplicationId)
         {
             InitializeComponent();
             
-            _TestTypeId = TestTypeId;
-            _LocalDrivingLicenseApplicationId = localDrivingLicenseApplicationId;
+            _testTypeId = TestTypeId;
+            _localDrivingLicenseApplicationId = localDrivingLicenseApplicationId;
             
             _Mode = enMode.AddAppointment;
         }
@@ -51,135 +52,15 @@ namespace DVLD_WindowsForms.Screens.TestAppointments
         public AddUpdateTestAppointmentScreen(int TestAppointmentId)
         {
             InitializeComponent();
-            _TestAppointmentId = TestAppointmentId;
+            _testAppointmentId = TestAppointmentId;
             _Mode = enMode.UpdateAppointment;
         }
 
 
-        private void _SetDefaultValues()
+        private void _LoadTestTypeImageAndTitle()
         {
-
-            decimal totalFees = 0;
-
-            lblTitle.Text = $"Schedule {_TestType.Title} Appointment";
-            lblLocalDrivingLicenseAppID.Text = _LocalDrivingLicenseApplication.Id.ToString();
-            lblDrivingClass.Text = _LocalDrivingLicenseApplication.LicenseClass.Name;
-            lblFullName.Text = _LocalDrivingLicenseApplication.ApplicantPerson.FullName;
-            lblFees.Text = _TestType.Fees.ToString("F2");
-
-            _TestTrials = clsTestAppointment.GetTestTrials(_LocalDrivingLicenseApplication.Id, _TestType.Id);
-
-            lblTrial.Text = _TestTrials.ToString();
-
-            dtpTestDate.Value = DateTime.Now;
-
-
-            totalFees += _TestType.Fees;
-
-            // if we are updating a schedualed test appointment this its retake test app is not null and test trials bigger than zero
-            // if we are scheduling new test appointment then the mode is add and test trails bigger than 0
-            if (_TestTrials > 0 && (_RetakeTestApplication != null || _Mode == enMode.AddAppointment) ) 
-            {                
-                totalFees += 5;
-                lblRetakeAppFees.Text = "5";
-                lblRetakeTestAppID.Text = _RetakeTestApplication != null ? _RetakeTestApplication.Id.ToString() : "N/A";
-            }
-
-            else
+            switch ((clsTestType.enTestTypes)_testTypeId)
             {
-                lblRetakeAppFees.Text = "0.00";
-                lblRetakeTestAppID.Text = "N/A";
-            }
-
-            lblTotalFees.Text = totalFees.ToString("F2");
-
-
-            
-        }
-
-        
-        private void _FillFromTestAppointment()
-        {
-
-            _TestType = clsTestType.GetById(_TestAppointment.TestTypeId);
-            _LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_TestAppointment.LocalDrivingLicenseApplicationId);
-            _RetakeTestApplication = clsApplication.GetById(_TestAppointment.RetakeTestApplicationId);
-            _SetDefaultValues();
-
-            dtpTestDate.Value = _TestAppointment.AppointmentDate;
-            
-            if ( _TestAppointment.IsLocked )
-                btnSave.Enabled = false;
-            
-            
-
-        }
-        private void _FillToTestAppointment()
-        {
-            if (_Mode == enMode.AddAppointment)
-            {
-                _TestAppointment.AppointmentDate = dtpTestDate.Value;
-                _TestAppointment.TestTypeId = _TestTypeId;
-                _TestAppointment.PaidFees = Convert.ToDecimal(lblFees.Text);
-                _TestAppointment.IsLocked = false;
-                _TestAppointment.CreatedByUserId = clsGlobal.SystemUser.Id;
-                _TestAppointment.LocalDrivingLicenseApplicationId = _LocalDrivingLicenseApplicationId;
-
-
-                // Handle This , if this is not the first time apply an application for retaking exam
-                if  (_TestTrials > 0 )
-                {
-                    _RetakeTestApplication = new clsApplication();
-                    _RetakeTestApplication.ApplicantPersonId = _LocalDrivingLicenseApplication.ApplicantPersonId;
-                    _RetakeTestApplication.Status = clsApplication.enApplicationStatus.New;
-                    _RetakeTestApplication.CreatedByUserId = clsGlobal.SystemUser.Id;
-                    _RetakeTestApplication.ApplicationTypeId = (int)clsApplicationType.enApplicationType.RetakeTest;
-                    _RetakeTestApplication.Date = DateTime.Now;
-                    _RetakeTestApplication.LastStatusDate = DateTime.Now;
-                    _RetakeTestApplication.PaidFees = 5;
-                }
-                else 
-                    _TestAppointment.RetakeTestApplicationId = -1;
-            }
-
-            _TestAppointment.AppointmentDate = dtpTestDate.Value;
-
-            
-
-        }
-
-        private void ScheduleTestAppointment_Load(object sender, EventArgs e)
-        {
-
-
-
-            if (_Mode == enMode.AddAppointment)
-            {
-                _TestType = clsTestType.GetById(_TestTypeId);
-                _LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_LocalDrivingLicenseApplicationId);
-                _TestAppointment = new clsTestAppointment();
-                _SetDefaultValues();
-            }
-
-            else
-            {
-                _TestAppointment = clsTestAppointment.GetById(_TestAppointmentId);
-                if (_TestAppointment == null) {
-                    MessageBox.Show($"Test Appointment with id {_TestAppointmentId} not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Close();
-                    return;
-                }
-
-                _FillFromTestAppointment();
-                lblTitle.Text = $"Update {_TestType.Title} Appointment";
-
-            }
-
-            clsTestType.enTestTypes testType = (clsTestType.enTestTypes)_TestTypeId;
-
-            switch (testType)
-            {
-
                 case clsTestType.enTestTypes.VisionTest:
                     pbTestImage.Image = Resources.Vision_512;
                     break;
@@ -194,6 +75,198 @@ namespace DVLD_WindowsForms.Screens.TestAppointments
 
             }
         }
+     
+        private void _SetDefaultValues()
+        {
+
+            decimal totalFees = 0;
+
+            lblTitle.Text = $"Schedule {_testType.Title} Appointment";
+            lblLocalDrivingLicenseAppID.Text = _localDrivingLicenseApplication.Id.ToString();
+            lblDrivingClass.Text = _localDrivingLicenseApplication.LicenseClass.Name;
+            lblFullName.Text = _localDrivingLicenseApplication.ApplicantPerson.FullName;
+            lblFees.Text = _testType.Fees.ToString("F2");
+            lblTrial.Text = _localDrivingLicenseApplication.CountTestTrials(_testType.Id).ToString();
+
+            dtpTestDate.Value = DateTime.Now;
+
+            _isRetakeTest = _localDrivingLicenseApplication.DoesAttendTestBefore(_testTypeId);
+
+            totalFees += _testType.Fees;
+
+            // if we are updating a schedualed test appointment this its retake test app is not null and test trials bigger than zero
+            // if we are scheduling new test appointment then the mode is add and test trails bigger than 0
+            if (_isRetakeTest && (_retakeTestApplication != null || _Mode == enMode.AddAppointment) ) 
+            {                
+                decimal retakeTestFees = clsApplicationType.GetById( (int)clsApplicationType.enApplicationType.RetakeTest).Fees;
+                totalFees += retakeTestFees;
+                lblRetakeAppFees.Text = retakeTestFees.ToString("F2");
+                lblRetakeTestAppID.Text = _retakeTestApplication != null ? _retakeTestApplication.Id.ToString() : "N/A";
+            }
+
+            else
+            {
+                lblRetakeAppFees.Text = "0.00";
+                lblRetakeTestAppID.Text = "N/A";
+            }
+
+            lblTotalFees.Text = totalFees.ToString("F2");
+
+
+            
+        }
+        
+        private void _FillFromTestAppointment()
+        {
+
+            _testType = clsTestType.GetById(_testAppointment.TestTypeId);
+            _localDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_testAppointment.LocalDrivingLicenseApplicationId);
+            _retakeTestApplication = clsApplication.GetById(_testAppointment.RetakeTestApplicationId);
+            _SetDefaultValues();
+
+         
+
+            if ( _testAppointment.IsLocked)
+            {
+                dtpTestDate.Value = _testAppointment.AppointmentDate;
+                lblUserMessage.Visible = true;
+                lblUserMessage.Text = "Person already sat for the test, appointment loacked.";
+                btnSave.Enabled = false;
+                dtpTestDate.Enabled = false;
+            }
+            else
+            {
+                if (DateTime.Compare(DateTime.Now, _testAppointment.AppointmentDate) < 0)
+                    dtpTestDate.MinDate = DateTime.Now;
+                
+                else
+                    dtpTestDate.Value = _testAppointment.AppointmentDate;
+            }
+            
+
+        }
+       
+        private void _FillToTestAppointment()
+        {
+            if (_Mode == enMode.AddAppointment)
+            {
+                _testAppointment.AppointmentDate = dtpTestDate.Value;
+                _testAppointment.TestTypeId = _testTypeId;
+                _testAppointment.PaidFees = Convert.ToDecimal(lblFees.Text);
+                _testAppointment.IsLocked = false;
+                _testAppointment.CreatedByUserId = clsGlobal.SystemUser.Id;
+                _testAppointment.LocalDrivingLicenseApplicationId = _localDrivingLicenseApplicationId;
+
+
+                // Handle This , if this is not the first time apply an application for retaking exam
+                if  ( _isRetakeTest )
+                {
+                    _retakeTestApplication = new clsApplication();
+                    _retakeTestApplication.ApplicantPersonId = _localDrivingLicenseApplication.ApplicantPersonId;
+                    _retakeTestApplication.Status = clsApplication.enApplicationStatus.New;
+                    _retakeTestApplication.CreatedByUserId = clsGlobal.SystemUser.Id;
+                    _retakeTestApplication.ApplicationTypeId = (int)clsApplicationType.enApplicationType.RetakeTest;
+                    _retakeTestApplication.Date = DateTime.Now;
+                    _retakeTestApplication.LastStatusDate = DateTime.Now;
+                    _retakeTestApplication.PaidFees = 5;
+                }
+                else 
+                    _testAppointment.RetakeTestApplicationId = -1;
+            }
+
+            _testAppointment.AppointmentDate = dtpTestDate.Value;
+
+            
+
+        }
+
+        private void ScheduleTestAppointment_Load(object sender, EventArgs e)
+        {
+
+
+            if (_Mode == enMode.AddAppointment)
+            {
+                _testType = clsTestType.GetById(_testTypeId);
+                _localDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_localDrivingLicenseApplicationId);
+                _testAppointment = new clsTestAppointment();
+                _SetDefaultValues();
+            }
+
+            else // Update 
+            {
+                _testAppointment = clsTestAppointment.GetById(_testAppointmentId);
+              
+                if (_testAppointment == null) {
+                    MessageBox.Show($"Test Appointment with id {_testAppointmentId} not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Close();
+                    return;
+                }
+
+                _FillFromTestAppointment();
+                lblTitle.Text = $"Update {_testType.Title} Appointment";
+
+            }
+
+           
+            _LoadTestTypeImageAndTitle();
+
+            if (!_HandleActiveTestAppointmentRestriction())
+                return;
+
+            if ( !_HandlePreviousTestRestriction())
+                return;
+
+
+
+        }
+
+        bool _HandleActiveTestAppointmentRestriction()
+        {
+            if (_Mode == enMode.AddAppointment && _localDrivingLicenseApplication.IsLastScheduledTestActive(_testTypeId))
+            {
+                lblUserMessage.Visible = true;
+                lblUserMessage.Text = "Person already have an active appointment for this test";
+                btnSave.Enabled = false;
+                dtpTestDate.Enabled = false;
+                return false;
+            }
+
+            return true;
+        }
+        bool _HandlePreviousTestRestriction()
+        {
+            switch ((clsTestType.enTestTypes)_testTypeId)
+            {
+                case clsTestType.enTestTypes.VisionTest:
+                    return true;
+                
+                case clsTestType.enTestTypes.WrittenTest:
+                    
+                    if ( !_localDrivingLicenseApplication.HasPassedTest((int)clsTestType.enTestTypes.VisionTest) )
+                    {
+                        lblUserMessage.Visible = true;
+                        lblUserMessage.Text = "Person must pass Vision Test before scheduling Written Test";
+                        btnSave.Enabled = false;
+                        dtpTestDate.Enabled = false;
+                        return false;
+                    }
+                    return true;
+
+                case clsTestType.enTestTypes.PracticalTest:
+                    if (!_localDrivingLicenseApplication.HasPassedTest((int)clsTestType.enTestTypes.WrittenTest))
+                    {
+                        lblUserMessage.Visible = true;
+                        lblUserMessage.Text = "Person must pass Written Test before scheduling Practical Test";
+                        btnSave.Enabled = false;
+                        dtpTestDate.Enabled = false;
+                        return false;
+                    }
+                    return true;
+
+            }
+
+            return false;
+        }
 
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -202,13 +275,18 @@ namespace DVLD_WindowsForms.Screens.TestAppointments
 
             _FillToTestAppointment();
 
-            if (_RetakeTestApplication != null)
+            if (_retakeTestApplication != null)
             {
-                _RetakeTestApplication.Save();
-                _TestAppointment.RetakeTestApplicationId = _RetakeTestApplication.Id;
+                if (!_retakeTestApplication.Save())
+                {
+                    MessageBox.Show("Retake Test Application is not saved" , "Error" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                    return;
+                }
+
+                _testAppointment.RetakeTestApplicationId = _retakeTestApplication.Id;
             }
 
-            if ( _TestAppointment.Save())
+            if ( _testAppointment.Save())
             {
                 MessageBox.Show("Appointment Saved Successfully");
                 Close();
@@ -217,6 +295,9 @@ namespace DVLD_WindowsForms.Screens.TestAppointments
             else
             {
                 MessageBox.Show("Appointment Is not Saved");
+                // Rollback Retake Test Application if created
+                if ( _isRetakeTest && _Mode == enMode.AddAppointment)
+                    clsApplication.Delete( _retakeTestApplication.Id) ;
 
             }
         }

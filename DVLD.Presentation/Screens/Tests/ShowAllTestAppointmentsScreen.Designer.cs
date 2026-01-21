@@ -34,7 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.localDrivingLicenseApplicationInfo1 = new DVLD_WindowsForms.UserControls.ctrlLocalDrivingLicenseApplicationInfo();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvApps = new System.Windows.Forms.DataGridView();
@@ -61,17 +61,17 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
-            // label1
+            // lblTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.LightBlue;
-            this.label1.Location = new System.Drawing.Point(130, 102);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(528, 51);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Appointments Management";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.LightBlue;
+            this.lblTitle.Location = new System.Drawing.Point(29, 102);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(730, 51);
+            this.lblTitle.TabIndex = 4;
+            this.lblTitle.Text = "Vision Test Appointments Management";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // localDrivingLicenseApplicationInfo1
             // 
@@ -186,11 +186,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.localDrivingLicenseApplicationInfo1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblTitle);
             this.Name = "ShowAllTestAppointmentsScreen";
             this.Text = "VisionTestScreen";
-            this.Load += new System.EventHandler(this.VisionTestScreen_Load);
-            this.Controls.SetChildIndex(this.label1, 0);
+            this.Load += new System.EventHandler(this.ShowAllTestAppointmentsScreen_Load);
+            this.Controls.SetChildIndex(this.lblTitle, 0);
             this.Controls.SetChildIndex(this.pictureBox1, 0);
             this.Controls.SetChildIndex(this.localDrivingLicenseApplicationInfo1, 0);
             this.Controls.SetChildIndex(this.label2, 0);
@@ -208,7 +208,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitle;
         private UserControls.ctrlLocalDrivingLicenseApplicationInfo localDrivingLicenseApplicationInfo1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvApps;

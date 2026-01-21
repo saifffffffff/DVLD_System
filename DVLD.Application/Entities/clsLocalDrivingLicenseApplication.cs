@@ -187,5 +187,32 @@ namespace DVLD_Application.Entities
 
         }
 
+        public static bool IsTestPassed(int LocalDrivingLicenseApplicationId, clsTestType.enTestTypes TestType)
+        {
+            return CountPassedTests(LocalDrivingLicenseApplicationId) >= (int)TestType;
+        }
+        public bool IsTestPassed(clsTestType.enTestTypes TestType) => IsTestPassed(this.Id , TestType);
+        
+        public static bool IsLastScheduledTestActive(int LocalDrivingLicenseApplicationId , int TestTypeId) => _repo.IsLastScheduledTestActive( LocalDrivingLicenseApplicationId , TestTypeId );
+        public bool IsLastScheduledTestActive(int TestTypeId) => IsLastScheduledTestActive(this.Id , TestTypeId );
+
+        public static bool HasPassedTest(int LocalDrivingLicenseApplicationId, int TestTypeId) =>  CountPassedTests(LocalDrivingLicenseApplicationId) >= TestTypeId ;
+        public bool HasPassedTest(int TestTypeId) => HasPassedTest(this.Id, TestTypeId);
+
+        public static bool DoesAttendTestBefore(int LocalDrivingLicenseApplicationId , int TestTypeId)
+        {
+            return clsTestAppointment.GetTestTrials(LocalDrivingLicenseApplicationId , TestTypeId) > 0 ;
+        }
+        public bool DoesAttendTestBefore(int TestTypeId)
+        {
+            return DoesAttendTestBefore(this.Id , TestTypeId);
+        }
+
+        public int CountTestTrials(int TestTypeId)
+        {
+            return clsTestAppointment.GetTestTrials(this.Id, TestTypeId);
+        }
+
+
     }
 }

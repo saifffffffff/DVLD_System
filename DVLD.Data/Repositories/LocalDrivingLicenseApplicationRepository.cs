@@ -178,5 +178,28 @@ namespace DVLD_Data.Repositries
 
             return PassedTestsCount;
         }
+
+        public bool IsLastScheduledTestActive(int LocalDrivingLicenseApplicationId, int TestTypeId)
+        {
+            //string Query = "select 1 where not exists(select top 1 IsFound=1 from TestAppointments where LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID and IsLocked = 0 and TestTypeID = @TestTypeID order by TestAppointmentID DESC) ";
+            string Query = "select top 1 IsFound=1 from TestAppointments where LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID and IsLocked = 0 and TestTypeID = @TestTypeID  order by TestAppointmentID DESC";
+            
+            var Connection = new SqlConnection(clsDataSettings.ConncetionString);
+            var Command = new SqlCommand(Query, Connection);
+            Command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationId);
+            Command.Parameters.AddWithValue("@TestTypeID", TestTypeId);
+            
+            try
+            {
+                Connection.Open();
+                return Command.ExecuteScalar() != null;
+
+            }
+            catch { }
+            finally { Connection.Close(); }
+
+            return false;
+
+        }
     }
 }

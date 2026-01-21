@@ -10,5 +10,6 @@ namespace DVLD_Data.Interfaces
     public interface ILocalDrivingLicenseApplicationRepository : IGenericRepository<LocalDrivingLicenseApplicationDto>
     {
         byte PassedTestsCount( int localDrivingLicenseApplicationId ) ;
+        bool IsLastScheduledTestActive(int LocalDrivingLicenseApplicationId, int TestTypeId);
     }
 }

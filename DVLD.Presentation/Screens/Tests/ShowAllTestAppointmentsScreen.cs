@@ -19,20 +19,21 @@ namespace DVLD_WindowsForms.Screens.TestsManagement
 {
     public partial class ShowAllTestAppointmentsScreen : DialogToInherit
     {
-        int _LocalDrivingLicenseId = -1;
-        int _TestTypeId = -1;
+        int _LocalDrivingLicenseApplicationId;
+        clsLocalDrivingLicenseApplication _LocalDrivingLicenseApplication;
+        clsTestType.enTestTypes _TestType;
 
-        public ShowAllTestAppointmentsScreen(int LocalDrivingLicenseId, int TestTypeId)
+        public ShowAllTestAppointmentsScreen(int LocalDrivingLicenseApplicationId, int TestTypeId)
         {
             InitializeComponent();
-            _LocalDrivingLicenseId = LocalDrivingLicenseId;
-            _TestTypeId = TestTypeId;
+            _LocalDrivingLicenseApplicationId= LocalDrivingLicenseApplicationId;
+            _TestType = (clsTestType.enTestTypes)TestTypeId;
         }
 
         private void _InitDataGrid()
         {
 
-            var view = clsTestAppointment.GetAllByLocalDrivingLicenseAppIdAndTestTypeId(_LocalDrivingLicenseId, _TestTypeId).DefaultView;
+            var view = clsTestAppointment.GetAllByLocalDrivingLicenseAppIdAndTestTypeId(_LocalDrivingLicenseApplicationId, (int)_TestType).DefaultView;
             
             dgvApps.DataSource = view.ToTable("TestAppoitn" , false , "TestAppointmentID", "AppointmentDate" , "PaidFees" ,  "IsLocked");
             
@@ -41,52 +42,68 @@ namespace DVLD_WindowsForms.Screens.TestsManagement
             dgvApps.Columns[2].HeaderText = "Paid Fees";
             dgvApps.Columns[3].HeaderText = "Is Locked";
         }
-
-        private void VisionTestScreen_Load(object sender, EventArgs e)
+        private void _LoadTestTypeImage()
         {
-            localDrivingLicenseApplicationInfo1.LoadInfo(_LocalDrivingLicenseId);
+            switch (_TestType)
+            {
+                case clsTestType.enTestTypes.VisionTest:
+                    pictureBox1.Image = Resources.Vision_512;
+                    break;
+                case clsTestType.enTestTypes.WrittenTest:
+                    pictureBox1.Image = Resources.Written_Test_512;
+                    lblTitle.Text = "Written Test Appointments Management";
+                    break;
+                case clsTestType.enTestTypes.PracticalTest:
+                    pictureBox1.Image = Resources.driving_test_512;
+                    lblTitle.Text = "Street Test Appointments Management";
+                    break;
+            } 
+        }
+       
+        private void ShowAllTestAppointmentsScreen_Load(object sender, EventArgs e)
+        {
+            _LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_LocalDrivingLicenseApplicationId);
+            
+            if (_LocalDrivingLicenseApplication == null)
+            {
+                MessageBox.Show("Error loading application data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            localDrivingLicenseApplicationInfo1.LoadInfo(_LocalDrivingLicenseApplicationId);
+            
             _InitDataGrid();
-
-            if (_TestTypeId == 2)
-            {
-                pictureBox1.Image = Resources.Written_Test_512;
-            }
-
-            else if (  _TestTypeId == 3)
-            {
-                pictureBox1.Image = Resources.driving_test_512;
-            }
+            _LoadTestTypeImage();
 
         }
         
         private void btnAddAppointment_Click(object sender, EventArgs e)
         {
-            bool IsLastTestAppointmentLocked = dgvApps.Rows.Count == 0 ? true : (bool)dgvApps.Rows[0].Cells["IsLocked"].Value;
-            bool IsPassed = clsLocalDrivingLicenseApplication.CountPassedTests(_LocalDrivingLicenseId) >= _TestTypeId;
+            bool IsLastTestAppointmentActive = clsLocalDrivingLicenseApplication.IsLastScheduledTestActive(_LocalDrivingLicenseApplicationId , (int)_TestType);
             
-            if (!IsLastTestAppointmentLocked)
+            if (IsLastTestAppointmentActive)
             {
                 MessageBox.Show("The last scheduled test appointment is not yet locked. You cannot schedule a new appointment until the previous one is completed and locked.", "Cannot Schedule New Appointment", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (IsPassed)
+            
+            if (_LocalDrivingLicenseApplication.IsTestPassed(_TestType))
             {
                 MessageBox.Show("The person already passed this test before, you can only retake failed tests", "Cannot Schedule New Appointment" , MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            clsGlobal.ShowDialog(new AddUpdateTestAppointmentScreen(_TestTypeId, _LocalDrivingLicenseId), true);
+            clsGlobal.ShowDialog(new AddUpdateTestAppointmentScreen((int)_TestType, _LocalDrivingLicenseApplicationId), true);
             
             _InitDataGrid();
             
-            
-
         }
 
         private void contextEdit_Click(object sender, EventArgs e)
         {
-           int TestAppointmentId = (int)dgvApps.SelectedRows[0].Cells[0].Value;
+           int TestAppointmentId = (int)dgvApps.CurrentRow.Cells[0].Value;
 
             clsGlobal.ShowDialog(new AddUpdateTestAppointmentScreen(TestAppointmentId), true);
             

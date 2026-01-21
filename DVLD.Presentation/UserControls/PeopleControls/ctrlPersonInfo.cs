@@ -52,7 +52,7 @@ namespace DVLD_WindowsForms.UserControls
         {
 
             var dialog = new AddUpdatePersonScreen(_Person.Id);
-            clsGlobal.ShowDialog(dialog);
+            clsGlobal.ShowDialog(dialog , true);
             LoadPersonInfo(_Person.Id);
             dialog.Close();
 

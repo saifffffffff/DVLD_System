@@ -30,6 +30,7 @@
         {
             this.btnSave = new System.Windows.Forms.Button();
             this.gbTestType = new System.Windows.Forms.GroupBox();
+            this.lblUserMessage = new System.Windows.Forms.Label();
             this.gbRetakeTestInfo = new System.Windows.Forms.GroupBox();
             this.lblTotalFees = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -84,7 +85,7 @@
             this.btnSave.ForeColor = System.Drawing.Color.Black;
             this.btnSave.Image = global::DVLD_WindowsForms.Properties.Resources.Save_32;
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(452, 682);
+            this.btnSave.Location = new System.Drawing.Point(452, 658);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(141, 35);
             this.btnSave.TabIndex = 36;
@@ -95,6 +96,7 @@
             // gbTestType
             // 
             this.gbTestType.BackColor = System.Drawing.Color.Transparent;
+            this.gbTestType.Controls.Add(this.lblUserMessage);
             this.gbTestType.Controls.Add(this.gbRetakeTestInfo);
             this.gbTestType.Controls.Add(this.pictureBox7);
             this.gbTestType.Controls.Add(this.lblDrivingClass);
@@ -120,10 +122,24 @@
             this.gbTestType.ForeColor = System.Drawing.Color.White;
             this.gbTestType.Location = new System.Drawing.Point(26, 63);
             this.gbTestType.Name = "gbTestType";
-            this.gbTestType.Size = new System.Drawing.Size(567, 605);
+            this.gbTestType.Size = new System.Drawing.Size(567, 589);
             this.gbTestType.TabIndex = 35;
             this.gbTestType.TabStop = false;
             this.gbTestType.Text = "Test Type";
+            // 
+            // lblUserMessage
+            // 
+            this.lblUserMessage.AutoSize = true;
+            this.lblUserMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserMessage.ForeColor = System.Drawing.Color.Red;
+            this.lblUserMessage.Location = new System.Drawing.Point(9, 213);
+            this.lblUserMessage.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblUserMessage.Name = "lblUserMessage";
+            this.lblUserMessage.Size = new System.Drawing.Size(381, 20);
+            this.lblUserMessage.TabIndex = 207;
+            this.lblUserMessage.Text = "Cannot Sechule, Vision Test Should be Passed First.";
+            this.lblUserMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblUserMessage.Visible = false;
             // 
             // gbRetakeTestInfo
             // 
@@ -138,9 +154,9 @@
             this.gbRetakeTestInfo.Controls.Add(this.label4);
             this.gbRetakeTestInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbRetakeTestInfo.ForeColor = System.Drawing.Color.White;
-            this.gbRetakeTestInfo.Location = new System.Drawing.Point(7, 473);
+            this.gbRetakeTestInfo.Location = new System.Drawing.Point(7, 458);
             this.gbRetakeTestInfo.Name = "gbRetakeTestInfo";
-            this.gbRetakeTestInfo.Size = new System.Drawing.Size(555, 126);
+            this.gbRetakeTestInfo.Size = new System.Drawing.Size(555, 122);
             this.gbRetakeTestInfo.TabIndex = 206;
             this.gbRetakeTestInfo.TabStop = false;
             this.gbRetakeTestInfo.Text = "Retake Test Info";
@@ -444,11 +460,11 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.LightBlue;
-            this.lblTitle.Location = new System.Drawing.Point(26, 163);
+            this.lblTitle.Location = new System.Drawing.Point(76, 163);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(518, 45);
+            this.lblTitle.Size = new System.Drawing.Size(338, 30);
             this.lblTitle.TabIndex = 6;
             this.lblTitle.Text = "Schedule ------ Test Appointment";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -457,7 +473,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 758);
+            this.ClientSize = new System.Drawing.Size(628, 729);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.gbTestType);
             this.Name = "AddUpdateTestAppointmentScreen";
@@ -518,5 +534,6 @@
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pbTestImage;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblUserMessage;
     }
 }
