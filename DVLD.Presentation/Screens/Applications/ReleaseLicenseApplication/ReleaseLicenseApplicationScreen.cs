@@ -26,8 +26,11 @@ namespace DVLD_WindowsForms.Screens.Applications.ReleaseLicenseApplication
 
         private void ctrlFindLocalLicense1_OnSelected()
         {
+            if (ctrlFindLocalLicense1.License == null) return;
+            
             if ( !ctrlFindLocalLicense1.License.IsDetained)
             {
+                lnkShowLicenseHistory.Visible = false;
                 ctrlFindLocalLicense1.Clear();
                 MessageBox.Show($"License Is Not Detained", "Not Detained License", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -47,6 +50,7 @@ namespace DVLD_WindowsForms.Screens.Applications.ReleaseLicenseApplication
                 lblTotalFees.Text = (Convert.ToSingle(lblApplicationFees.Text) + Convert.ToSingle(lblFineFees.Text)).ToString();
 
                 btnReleaseLicense.Enabled = true;
+                lnkShowLicenseHistory.Visible = true;
             }
         }
 
@@ -73,6 +77,7 @@ namespace DVLD_WindowsForms.Screens.Applications.ReleaseLicenseApplication
                 ctrlFindLocalLicense1.RefreshInfo();
                 btnReleaseLicense.Enabled = false;
                 ctrlFindLocalLicense1.DisableFilter();
+                lnkShowLicenseInfo.Visible = true;
             }
             else
             {
@@ -80,6 +85,16 @@ namespace DVLD_WindowsForms.Screens.Applications.ReleaseLicenseApplication
             }
 
 
+        }
+
+        private void lnkShowLicenseHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            clsGlobal.ShowDialog(new Licenses.ShowPersonLicenseHistoryScreen(ctrlFindLocalLicense1.License.Application.ApplicantPersonId), true);
+        }
+
+        private void lnkShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            clsGlobal.ShowDialog(new Licenses.ShowLicenseInfoScreen(ctrlFindLocalLicense1.License.Id), true);
         }
     }
 }

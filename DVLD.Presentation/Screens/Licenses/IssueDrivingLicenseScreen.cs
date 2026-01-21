@@ -26,12 +26,29 @@ namespace DVLD_WindowsForms.Screens.Licenses
 
         private void IssueDrivingLicenseScreen_Load(object sender, EventArgs e)
         {
-            
+            tbNotes.Focus();
+
             _LocalDrivingLicenseApplication = clsLocalDrivingLicenseApplication.GetById(_LocalDrivingLicenseApplicationID);
 
             if ( _LocalDrivingLicenseApplication == null)
             {
                 MessageBox.Show($"Local Driving License Application With ID {_LocalDrivingLicenseApplicationID} Not Found");
+                Close();
+                return;
+            }
+
+            if ( !_LocalDrivingLicenseApplication.PassedAllTests)
+            {
+                MessageBox.Show("Cannot Issue Driving License Because The Applicant Has Not Passed All Required Tests" , "Error" , MessageBoxButtons.OK , MessageBoxIcon.Error);
+                Close();
+                return;
+            }
+
+            int LicenseId = clsLicense.GetActiveLicenseId(_LocalDrivingLicenseApplication.ApplicantPersonId, _LocalDrivingLicenseApplication.LicenseClassID);
+
+            if ( LicenseId != -1 )
+            {
+                MessageBox.Show("Person already has License before with License ID = "+ LicenseId.ToString() , "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
                 return;
             }

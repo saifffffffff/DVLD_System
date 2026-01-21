@@ -65,6 +65,8 @@
             this.lblApplicationID = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnRenewLicense = new System.Windows.Forms.Button();
+            this.lnkShowLicenseInfo = new System.Windows.Forms.LinkLabel();
+            this.lnkShowLicenseHistory = new System.Windows.Forms.LinkLabel();
             this.gpApplicationInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -514,11 +516,45 @@
             this.btnRenewLicense.UseVisualStyleBackColor = true;
             this.btnRenewLicense.Click += new System.EventHandler(this.btnIssueLicense_Click);
             // 
+            // lnkShowLicenseInfo
+            // 
+            this.lnkShowLicenseInfo.ActiveLinkColor = System.Drawing.Color.White;
+            this.lnkShowLicenseInfo.AutoSize = true;
+            this.lnkShowLicenseInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkShowLicenseInfo.ForeColor = System.Drawing.Color.LightBlue;
+            this.lnkShowLicenseInfo.LinkColor = System.Drawing.Color.LightBlue;
+            this.lnkShowLicenseInfo.Location = new System.Drawing.Point(247, 858);
+            this.lnkShowLicenseInfo.Name = "lnkShowLicenseInfo";
+            this.lnkShowLicenseInfo.Size = new System.Drawing.Size(173, 24);
+            this.lnkShowLicenseInfo.TabIndex = 201;
+            this.lnkShowLicenseInfo.TabStop = true;
+            this.lnkShowLicenseInfo.Text = "Show Licenses Info";
+            this.lnkShowLicenseInfo.Visible = false;
+            this.lnkShowLicenseInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkShowLicenseInfo_LinkClicked);
+            // 
+            // lnkShowLicenseHistory
+            // 
+            this.lnkShowLicenseHistory.ActiveLinkColor = System.Drawing.Color.White;
+            this.lnkShowLicenseHistory.AutoSize = true;
+            this.lnkShowLicenseHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkShowLicenseHistory.ForeColor = System.Drawing.Color.LightBlue;
+            this.lnkShowLicenseHistory.LinkColor = System.Drawing.Color.LightBlue;
+            this.lnkShowLicenseHistory.Location = new System.Drawing.Point(19, 858);
+            this.lnkShowLicenseHistory.Name = "lnkShowLicenseHistory";
+            this.lnkShowLicenseHistory.Size = new System.Drawing.Size(200, 24);
+            this.lnkShowLicenseHistory.TabIndex = 200;
+            this.lnkShowLicenseHistory.TabStop = true;
+            this.lnkShowLicenseHistory.Text = "Show Licenses History";
+            this.lnkShowLicenseHistory.Visible = false;
+            this.lnkShowLicenseHistory.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkShowLicenseHistory_LinkClicked);
+            // 
             // RenewDrivingLicenseApplicationScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 920);
+            this.Controls.Add(this.lnkShowLicenseInfo);
+            this.Controls.Add(this.lnkShowLicenseHistory);
             this.Controls.Add(this.btnRenewLicense);
             this.Controls.Add(this.gpApplicationInfo);
             this.Controls.Add(this.ctrlFindLocalLicense1);
@@ -531,6 +567,8 @@
             this.Controls.SetChildIndex(this.ctrlFindLocalLicense1, 0);
             this.Controls.SetChildIndex(this.gpApplicationInfo, 0);
             this.Controls.SetChildIndex(this.btnRenewLicense, 0);
+            this.Controls.SetChildIndex(this.lnkShowLicenseHistory, 0);
+            this.Controls.SetChildIndex(this.lnkShowLicenseInfo, 0);
             this.gpApplicationInfo.ResumeLayout(false);
             this.gpApplicationInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
@@ -588,5 +626,7 @@
         private System.Windows.Forms.Label lblApplicationID;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnRenewLicense;
+        private System.Windows.Forms.LinkLabel lnkShowLicenseInfo;
+        private System.Windows.Forms.LinkLabel lnkShowLicenseHistory;
     }
 }

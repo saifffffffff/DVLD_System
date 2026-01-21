@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using DVLD_Application.Entities;
 using DVLD_WindowsForms.Helpers;
 using DVLD_WindowsForms.Screens.Core;
+using DVLD_WindowsForms.Screens.Licenses;
 using DVLD_WindowsForms.UserControls;
 
 namespace DVLD_WindowsForms.Screens.Applications.RenewDrivingLicenseApplication
@@ -57,34 +58,35 @@ namespace DVLD_WindowsForms.Screens.Applications.RenewDrivingLicenseApplication
 
             btnRenewLicense.Enabled = false;
             ctrlFindLocalLicense1.DisableFilter();
-            
-            
-             
-            
+            lnkShowLicenseHistory.Visible = true;
+
+
+
+
 
         }
+
+        private void _ShowMessageBoxError(string message)
+        {
+            ctrlFindLocalLicense1.Clear();
+            btnRenewLicense.Enabled = false;
+            lnkShowLicenseHistory.Visible = false;
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }   
 
         private void ctrlFindLocalLicense1_OnSelected()
         {
             if (!ctrlFindLocalLicense1.License.IsActive)
-            {
-                ctrlFindLocalLicense1.Clear();
-                btnRenewLicense.Enabled = false;
-                MessageBox.Show($"License Is Not Active !", "Not Active License", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                _ShowMessageBoxError("License Is Not Active !");
+            
 
             else if (!ctrlFindLocalLicense1.License.IsExpired)
-            {
-                ctrlFindLocalLicense1.Clear();
-                btnRenewLicense.Enabled = false;
-                MessageBox.Show($"License Is Not Expired Yet !", "Not Expired", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                _ShowMessageBoxError("License Is Not Expired Yet !");
+            
             else if (ctrlFindLocalLicense1.License.IsDetained)
-            {
-                ctrlFindLocalLicense1.Clear();
-                btnRenewLicense.Enabled = false;
-                MessageBox.Show($"License Is Detained ! You Cannot Renew A Detained License.", "Detained License", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                _ShowMessageBoxError("License Is Detained !");
+                
+            
             else
             {
                 lblOldLicenseID.Text = ctrlFindLocalLicense1.License.Id.ToString();
@@ -96,8 +98,19 @@ namespace DVLD_WindowsForms.Screens.Applications.RenewDrivingLicenseApplication
                 lblTotalFees.Text = TotalFees.ToString();
                 lblExpirationDate.Text = DateTime.Now.AddYears(ctrlFindLocalLicense1.License.LicenseClass.DefaultValidityLength).ToShortDateString();
                 btnRenewLicense.Enabled = false;
+                lnkShowLicenseHistory.Visible = true;
                 ctrlFindLocalLicense1.DisableFilter();
             }
+        }
+
+        private void lnkShowLicenseHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            clsGlobal.ShowDialog(new ShowPersonLicenseHistoryScreen(ctrlFindLocalLicense1.License.Application.ApplicantPersonId));
+        }
+
+        private void lnkShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            clsGlobal.ShowDialog(new ShowLicenseInfoScreen(ctrlFindLocalLicense1.License.Id));
         }
     }
 }

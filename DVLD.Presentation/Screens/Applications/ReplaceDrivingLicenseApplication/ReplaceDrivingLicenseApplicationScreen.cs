@@ -31,17 +31,18 @@ namespace DVLD_WindowsForms.Screens.Applications.ReplaceDrivingLicenseApplicatio
             if ( !ctrlFindLocalLicense1.License.IsActive)
             {
                 MessageBox.Show($"License Is Not With ID {ctrlFindLocalLicense1.License.Id} Active");
-                return;
+                lnkShowLicenseHistory.Visible = false;
             }
             else if ( ctrlFindLocalLicense1.License.IsDetained)
             {
                 MessageBox.Show($"License Is With ID {ctrlFindLocalLicense1.License.Id} Detained");
-                return;
+                lnkShowLicenseHistory.Visible = false;
             }
             else
             {
                 lblOldLicenseID.Text = ctrlFindLocalLicense1.License.Id.ToString();
                 btnReplaceLicense.Enabled = true;
+                lnkShowLicenseHistory.Visible = true;
             }
         }
 
@@ -67,13 +68,23 @@ namespace DVLD_WindowsForms.Screens.Applications.ReplaceDrivingLicenseApplicatio
             ctrlFindLocalLicense1.DisableFilter();
             btnReplaceLicense.Enabled = false;
             gbReplacementFor.Enabled = false;
-
+            lnkShowLicenseInfo.Visible = true;
             MessageBox.Show("Licensed Replaced Successfully with ID=" + NewLicense.Id.ToString(), "License Issued", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
 
 
+        }
+
+        private void lnkShowLicenseHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            clsGlobal.ShowDialog(new Licenses.ShowPersonLicenseHistoryScreen( ctrlFindLocalLicense1.License.Application.ApplicantPersonId), true) ;
+        }
+
+        private void lnkShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            clsGlobal.ShowDialog(new Licenses.ShowLicenseInfoScreen(ctrlFindLocalLicense1.License.Id), true);
         }
     }
 }
