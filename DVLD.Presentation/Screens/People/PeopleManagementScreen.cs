@@ -20,12 +20,8 @@ namespace DVLD_WindowsForms.PeopleManagement
     public partial class PeopleManagementScreen : ScreenToInherit
     {
 
-        private static DataTable _dtAllPeople = clsPerson.GetAll();
-        private DataTable _dtPeople = _dtAllPeople.DefaultView.ToTable(false, "PersonID", "NationalNo",
-                                    "FirstName", "SecondName", "ThirdName", "LastName",
-                                    "GendorCaption", "DateOfBirth", "CountryName",
-                                    "Phone", "Email");
-        private DataView _view;
+
+        private DataTable _dtPeople;
 
         private void _RefreshDataGridView() { 
             InitializeControls();
@@ -33,8 +29,12 @@ namespace DVLD_WindowsForms.PeopleManagement
         }
         private void InitializeControls()
         {
-            cbFilter.SelectedIndex = 0;
+            _dtPeople = clsPerson.GetAll().DefaultView.ToTable(false, "PersonID", "NationalNo",
+                                    "FirstName", "SecondName", "ThirdName", "LastName",
+                                    "GendorCaption", "DateOfBirth", "CountryName",
+                                    "Phone", "Email");
 
+            cbFilter.SelectedIndex = 0;
             dgvPeople.DataSource = _dtPeople;
 
             if (dgvPeople.Rows.Count > 0)
@@ -67,7 +67,6 @@ namespace DVLD_WindowsForms.PeopleManagement
         }
         public PeopleManagementScreen()
         {
-            _view = _dtPeople.DefaultView;
             InitializeComponent();
             InitializeControls(); 
         }
@@ -80,7 +79,7 @@ namespace DVLD_WindowsForms.PeopleManagement
             if (string.IsNullOrEmpty(tbSearch.Text.Trim()) || FilterColumn == "None")
             {
                 tbSearch.Visible = FilterColumn == "None" ? false : true;
-                _view.RowFilter = "";
+                _dtPeople.DefaultView.RowFilter = "";
                 return;
             }
 
@@ -90,14 +89,14 @@ namespace DVLD_WindowsForms.PeopleManagement
                     Search = tbSearch.Text = string.Empty;
 
                 if (string.IsNullOrEmpty(Search))
-                    _view.RowFilter = "";
+                    _dtPeople.DefaultView.RowFilter = "";
                 else
-                    _view.RowFilter = $"PersonID = {Search}";
+                    _dtPeople.DefaultView.RowFilter = $"PersonID = {Search}";
                 
                 return;
             }
 
-            _view.RowFilter = $"{FilterColumn} Like '{Search}%' ";
+            _dtPeople.DefaultView.RowFilter = $"{FilterColumn} Like '{Search}%' ";
 
         }
         private void tbSearch_TextChanged(object sender, EventArgs e)
@@ -136,12 +135,11 @@ namespace DVLD_WindowsForms.PeopleManagement
                 if (clsPerson.Delete(Id))
                 {
                     MessageBox.Show("Deleted Successfully");
-                    tbSearch.Text = "";
                     _RefreshDataGridView();
                 }
 
                 else
-                    MessageBox.Show("Somthing Went Wrong", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("There is data linked to this person !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void contextEdit_Click(object sender, EventArgs e)

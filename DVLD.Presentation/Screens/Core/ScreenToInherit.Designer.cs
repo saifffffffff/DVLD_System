@@ -37,6 +37,7 @@ namespace DVLD_WindowsForms
             // 
             this.btnClose.BackgroundImage = global::DVLD_WindowsForms.Properties.Resources.cross_32;
             this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(1293, 8);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(42, 41);
@@ -49,6 +50,7 @@ namespace DVLD_WindowsForms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(1328, 752);
             this.Controls.Add(this.btnClose);
             this.DoubleBuffered = true;

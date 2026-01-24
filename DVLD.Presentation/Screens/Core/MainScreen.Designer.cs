@@ -51,6 +51,9 @@ namespace DVLD_WindowsForms
             this.pbUserAccount = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.contextReleaseDetainedLicense = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextRetakeTest = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbUserAccount)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -117,8 +120,11 @@ namespace DVLD_WindowsForms
             // drivingLicensesServicesToolStripMenuItem
             // 
             this.drivingLicensesServicesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextReplace,
             this.contextRenewDrivingLicense,
-            this.contextReplace});
+            this.toolStripMenuItem1,
+            this.contextReleaseDetainedLicense,
+            this.contextRetakeTest});
             this.drivingLicensesServicesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.drivingLicensesServicesToolStripMenuItem.Image = global::DVLD_WindowsForms.Properties.Resources.Driver_License_48;
             this.drivingLicensesServicesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -256,6 +262,31 @@ namespace DVLD_WindowsForms
             this.panel1.Size = new System.Drawing.Size(1500, 123);
             this.panel1.TabIndex = 4;
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(345, 6);
+            // 
+            // contextReleaseDetainedLicense
+            // 
+            this.contextReleaseDetainedLicense.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextReleaseDetainedLicense.Image = global::DVLD_WindowsForms.Properties.Resources.Detained_Driving_License_32;
+            this.contextReleaseDetainedLicense.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.contextReleaseDetainedLicense.Name = "contextReleaseDetainedLicense";
+            this.contextReleaseDetainedLicense.Size = new System.Drawing.Size(348, 38);
+            this.contextReleaseDetainedLicense.Text = "Release Detained Driving License";
+            this.contextReleaseDetainedLicense.Click += new System.EventHandler(this.contextReleaseDetainedLicense_Click);
+            // 
+            // contextRetakeTest
+            // 
+            this.contextRetakeTest.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contextRetakeTest.Image = global::DVLD_WindowsForms.Properties.Resources.Retake_Test_32;
+            this.contextRetakeTest.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.contextRetakeTest.Name = "contextRetakeTest";
+            this.contextRetakeTest.Size = new System.Drawing.Size(348, 38);
+            this.contextRetakeTest.Text = "Retake Test";
+            this.contextRetakeTest.Click += new System.EventHandler(this.contextRetakeTest_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -302,6 +333,9 @@ namespace DVLD_WindowsForms
         private System.Windows.Forms.ToolStripMenuItem contextRenewDrivingLicense;
         private System.Windows.Forms.ToolStripMenuItem contextReplace;
         private System.Windows.Forms.ToolStripMenuItem contextManageTestTypes;
+        private System.Windows.Forms.ToolStripMenuItem contextReleaseDetainedLicense;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem contextRetakeTest;
     }
 }
 

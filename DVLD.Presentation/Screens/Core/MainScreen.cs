@@ -2,7 +2,7 @@
 using System.Drawing;
 using DVLD_WindowsForms.Screens.Applications.RenewDrivingLicenseApplication;
 using System.Windows.Forms;
-using DVLD_WindowsForms.Screens.Applications.RenewDrivingLicenseApplication;
+using DVLD_WindowsForms.Screens.Applications.ReleaseLicenseApplication;
 using DVLD_Application.Entities;
 using DVLD_WindowsForms.Helpers;
 using DVLD_WindowsForms.PeopleManagement;
@@ -196,6 +196,16 @@ namespace DVLD_WindowsForms
         private void contextManageTestTypes_Click(object sender, EventArgs e)
         {
             ShowScreen(new TestTypesManagementScreen());
+        }
+
+        private void contextRetakeTest_Click(object sender, EventArgs e)
+        {
+            ShowScreen(new LocalDrivingLicenseApplicationsManagementScreen());
+        }
+
+        private void contextReleaseDetainedLicense_Click(object sender, EventArgs e)
+        {
+            clsGlobal.ShowDialog(new ReleaseLicenseApplicationScreen());
         }
     }
 }

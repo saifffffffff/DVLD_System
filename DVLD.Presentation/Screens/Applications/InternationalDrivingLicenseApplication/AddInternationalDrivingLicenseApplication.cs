@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLD_Application.Entities;
 using DVLD_WindowsForms.Helpers;
@@ -15,8 +8,8 @@ namespace DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseAppl
 {
     public partial class AddInternationalDrivingLicenseApplication : DialogToInherit
     {
-        private clsApplication _Application;
-        private clsInternationalLicense _InternationalLicense;
+
+        int _InternationalLicenseId = -1;
         public AddInternationalDrivingLicenseApplication()
         {
             InitializeComponent();
@@ -29,8 +22,6 @@ namespace DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseAppl
             lblApplicationDate.Text = DateTime.Now.ToShortDateString();
             lblIssueDate.Text = DateTime.Now.ToShortDateString();
             lblFees.Text = clsApplicationType.GetById((int)clsApplicationType.enApplicationType.NewInternationalLicense).Fees.ToString();
-            // The expirartion date is calculated and changed in the system 
-            // currently 1 year
             lblExpirationDate.Text = DateTime.Now.AddYears(1).ToShortDateString();
 
         }
@@ -39,9 +30,12 @@ namespace DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseAppl
         {
             clsGlobal.ShowDialog( new Licenses.ShowPersonLicenseHistoryScreen(ctrlFindLocalLicense1.License.Application.ApplicantPersonId), true );
         }
+        
         private void lnkShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            clsGlobal.ShowDialog(new InternationalLicenses.ShowInternationalLicenseInfo(_InternationalLicense.Id) , true);
+            if ( _InternationalLicenseId == -1 ) return;
+
+            clsGlobal.ShowDialog(new InternationalLicenses.ShowInternationalLicenseInfo(_InternationalLicenseId) , true);
         }
 
         private void btnIssueLicense_Click(object sender, EventArgs e)
@@ -55,7 +49,7 @@ namespace DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseAppl
                 return;
 
 
-            _InternationalLicense = new clsInternationalLicense();
+            var _InternationalLicense = new clsInternationalLicense();
 
             // filling on the application info
             _InternationalLicense.Application = new clsApplication();
@@ -84,11 +78,11 @@ namespace DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseAppl
                 lnkShowLicenseInfo.Enabled = true;
                 ctrlFindLocalLicense1.DisableFilter();
                 btnIssueLicense.Enabled = false;
+                _InternationalLicenseId = _InternationalLicense.Id;
                 MessageBox.Show("Issued Successfully");
             }
             else
             {
-                clsApplication.Delete(_Application.Id);
                 MessageBox.Show("Not Issued", "Somthing Went Wrong", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             }
@@ -97,44 +91,29 @@ namespace DVLD_WindowsForms.Screens.Applications.InternationalDrivingLicenseAppl
 
         }
 
+        private void _ShowMessageBoxError(string message)
+        {
+            ctrlFindLocalLicense1.Clear();
+            lblLocalLicenseID.Text = "[???]";
+            btnIssueLicense.Enabled = false;
+            lnkShowLicensesHistory.Enabled = false;
+            lnkShowLicenseInfo.Enabled = false;
+            MessageBox.Show(message);
+        }
         private void ctrlFindLocalLicense1_OnSelected()
         {
             if (ctrlFindLocalLicense1.License.LicenseClassId != (int)clsLicenseClass.enLicenseClass.OrdinaryDiving)
-            {
-                ctrlFindLocalLicense1.Clear();
-                lblLocalLicenseID.Text = "[???]";
-                btnIssueLicense.Enabled = false;
-                lnkShowLicensesHistory.Enabled = false;
-                lnkShowLicenseInfo.Enabled = false;
-                MessageBox.Show("License Class Must Be Ordinary");
-            }
+                _ShowMessageBoxError("License Class Must Be Ordinary");
+
             else if (ctrlFindLocalLicense1.License.IsExpired)
-            {
-                ctrlFindLocalLicense1.Clear();
-                lblLocalLicenseID.Text = "[???]";
-                btnIssueLicense.Enabled = false;
-                lnkShowLicensesHistory.Enabled = false;
-                lnkShowLicenseInfo.Enabled = false;
-                MessageBox.Show("License Is Expired");
-            }
+                _ShowMessageBoxError("License Is Expired");
+            
             else if (ctrlFindLocalLicense1.License.IsDetained)
-            {
-                ctrlFindLocalLicense1.Clear();
-                lblLocalLicenseID.Text = "[???]";
-                btnIssueLicense.Enabled = false;
-                lnkShowLicensesHistory.Enabled = false;
-                lnkShowLicenseInfo.Enabled = false;
-                MessageBox.Show("License Is Detained");
-            }
+                _ShowMessageBoxError("License Is Detained");    
+            
             else if (clsInternationalLicense.HasActiveInternationalDrivingLicense(ctrlFindLocalLicense1.License.DriverId))
-            {
-                ctrlFindLocalLicense1.Clear();
-                lblLocalLicenseID.Text = "[???]";
-                btnIssueLicense.Enabled = false;
-                lnkShowLicensesHistory.Enabled = false;
-                lnkShowLicenseInfo.Enabled = false;
-                MessageBox.Show("This License Is Already Attached To Active International License");
-            }
+                _ShowMessageBoxError("Driver Has Active International Driving License");
+            
             else
             {
                 lblLocalLicenseID.Text = ctrlFindLocalLicense1.License.Id.ToString();

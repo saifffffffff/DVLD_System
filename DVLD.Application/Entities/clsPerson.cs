@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using DVLD_Data.Dtos;
-using DVLD_Data.Interfaces;
+using System.IO;
 using DVLD_Data.Repositries;
 
 namespace DVLD_Application.Entities
@@ -98,8 +98,23 @@ namespace DVLD_Application.Entities
         }
 
         protected override bool _Update() => _repo.Update(ToDto());
-        
-        public static bool Delete(int Id) => _repo.DeleteById(Id);
+
+        public static bool Delete(int Id)
+        {
+            string ImagePath = _repo.GetById(Id).ImagePath;
+            
+            if (_repo.DeleteById(Id))
+            {
+                if (  !string.IsNullOrEmpty(ImagePath) )
+                    File.Delete(ImagePath);
+                return true;
+            }
+
+            return false;
+                
+                
+            
+        }
         
         public static bool IsExist(int Id) => _repo.IsExist(Id);
 
