@@ -1,9 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Linq;
 using DVLD_Data.Dtos;
 using DVLD_Data.Interfaces;
 using DVLD_Data.Repositries;
