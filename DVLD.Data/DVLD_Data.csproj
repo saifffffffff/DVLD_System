@@ -87,5 +87,8 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\LocalDrivingLicenseApplicationRepository.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="script.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

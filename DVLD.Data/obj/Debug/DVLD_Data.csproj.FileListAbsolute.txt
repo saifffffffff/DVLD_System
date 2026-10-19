@@ -10,3 +10,9 @@ C:\Users\tareq\Desktop\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.csproj.Assembly
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.csproj.CoreCompileInputs.cache
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.dll
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.pdb
+C:\Projects\DVLD_System\DVLD.Data\bin\Debug\DVLD_Data.dll
+C:\Projects\DVLD_System\DVLD.Data\bin\Debug\DVLD_Data.pdb
+C:\Projects\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.csproj.AssemblyReference.cache
+C:\Projects\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.csproj.CoreCompileInputs.cache
+C:\Projects\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.dll
+C:\Projects\DVLD_System\DVLD.Data\obj\Debug\DVLD_Data.pdb

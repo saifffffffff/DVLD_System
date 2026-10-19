@@ -110,3 +110,13 @@ C:\Users\tareq\Desktop\DVLD_System\DVLD.Application\bin\Debug\System.Text.Encodi
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Application\bin\Debug\System.Text.Json.xml
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Application\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\tareq\Desktop\DVLD_System\DVLD.Application\obj\Debug\DVLD_App.B0C74A84.Up2Date
+C:\Projects\DVLD_System\DVLD.Application\bin\Debug\DVLD_Application.dll.config
+C:\Projects\DVLD_System\DVLD.Application\bin\Debug\DVLD_Application.dll
+C:\Projects\DVLD_System\DVLD.Application\bin\Debug\DVLD_Application.pdb
+C:\Projects\DVLD_System\DVLD.Application\bin\Debug\DVLD_Data.dll
+C:\Projects\DVLD_System\DVLD.Application\bin\Debug\DVLD_Data.pdb
+C:\Projects\DVLD_System\DVLD.Application\obj\Debug\DVLD_Application.csproj.AssemblyReference.cache
+C:\Projects\DVLD_System\DVLD.Application\obj\Debug\DVLD_Application.csproj.CoreCompileInputs.cache
+C:\Projects\DVLD_System\DVLD.Application\obj\Debug\DVLD_App.B0C74A84.Up2Date
+C:\Projects\DVLD_System\DVLD.Application\obj\Debug\DVLD_Application.dll
+C:\Projects\DVLD_System\DVLD.Application\obj\Debug\DVLD_Application.pdb
